@@ -50,13 +50,13 @@ public:
 		defaultstring = _textstring; 
 		displaystring = _textstring; 
         
-		paddedRect = new ciUIRectangle(-padding, -padding, w+padding*2.0, padding*2.0);
+		paddedRect = new ciUIRectangle(-padding, -padding, w+padding*2.0f, padding*2.0f);
 		paddedRect->setParent(rect); 
         
 		clicked = false;                                            //the widget's value
         autoclear = true; 
 		
-		label = new ciUILabel(padding*2.0,0,(name+" LABEL"), _size); 
+		label = new ciUILabel(padding*2.0f,0,(name+" LABEL"), _size); 
 		label->setParent(label); 
 		label->setRectParent(rect); 
         label->setEmbedded(true);
@@ -88,23 +88,23 @@ public:
         if(clicked)
 		{						            
 			ci::gl::color(label->getColorFillHighlight().r,label->getColorFillHighlight().g,label->getColorFillHighlight().b, fabs(cos(theta))); 
-			theta +=0.05; 
+			theta +=0.05f; 
 			
 			spaceOffset = label->getStringWidth(displaystring)-cursorWidth; 
-            if(spaceOffset > rect->getWidth()-padding*4.0)
+            if(spaceOffset > rect->getWidth()-padding*4.0f)
             {
-                spaceOffset = rect->getWidth()-padding*4.0; 
+                spaceOffset = rect->getWidth()-padding*4.0f; 
             }
 			float x = label->getRect()->getX()+spaceOffset;			
 			float y = label->getRect()->getY()-padding; 
-			float t = label->getRect()->getHeight()+padding*2.0; 			
+			float t = label->getRect()->getHeight()+padding*2.0f; 			
             ci::gl::drawSolidRect(Rectf(x, y, x+cursorWidth, y+t)); 
 		}		
     }
 	
     void mouseMove(int x, int y ) 
     {
-        if(rect->inside(x, y))
+        if(rect->inside((float) x, (float) y))
         {
             state = CI_UI_STATE_OVER;         			
         }    
@@ -132,7 +132,7 @@ public:
     
     void mouseDown(int x, int y, int button) 
     {
-        if(rect->inside(x, y))
+        if(rect->inside((float) x, (float) y))
         {
 			if(state == CI_UI_STATE_OVER)
 			{
@@ -223,7 +223,7 @@ public:
 			}
             float h = label->getRect()->getHeight(); 			
 			float ph = rect->getHeight(); 
-			label->getRect()->setY(ph/2.0 - h/2.0); 
+			label->getRect()->setY(ph/2.0f - h/2.0f); 
         }        
     }
     
@@ -326,7 +326,7 @@ public:
         }
         float h = label->getRect()->getHeight(); 			
         float ph = rect->getHeight(); 
-        label->getRect()->setY(ph/2.0 - h/2.0);         
+        label->getRect()->setY(ph/2.0f - h/2.0f);         
         displaystring = textstring; 
 	}
 	
@@ -335,18 +335,18 @@ public:
 		parent = _parent; 
         if(rect->getHeight() == 0)
         {
-            rect->setHeight(label->getPaddingRect()->getHeight()+padding*2.0); 
+            rect->setHeight(label->getPaddingRect()->getHeight()+padding*2.0f); 
         }
         label->setLabel(textstring);
 		ciUIRectangle *labelrect = label->getRect(); 
 		float h = labelrect->getHeight(); 
 		float ph = rect->getHeight(); 	
 		
-		labelrect->setY(ph/2.0 - h/2.0); 
+		labelrect->setY(ph/2.0f - h/2.0f); 
 		defaultY = labelrect->getRawY()+labelrect->getHeight(); 
 		defaultX = labelrect->getRawX(); 
  		
-		paddedRect->setHeight(rect->getHeight()+padding*2.0);
+		paddedRect->setHeight(rect->getHeight()+padding*2.0f);
 		
 		cursorWidth = label->getStringWidth("."); 
         

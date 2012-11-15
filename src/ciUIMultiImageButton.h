@@ -71,10 +71,10 @@ public:
 		name = _name; 		
 		kind = CI_UI_WIDGET_MULTIIMAGEBUTTON;
         
-		paddedRect = new ciUIRectangle(-padding, -padding, w+padding*2.0, h+padding*2.0);
+		paddedRect = new ciUIRectangle(-padding, -padding, w+padding*2.0f, h+padding*2.0f);
 		paddedRect->setParent(rect); 
         
-		label = new ciUILabel(w+padding*2.0,0, (name+" LABEL"), name, _size); 
+		label = new ciUILabel(w+padding*2.0f,0, (name+" LABEL"), name, _size); 
 		label->setParent(label); 
 		label->setRectParent(rect); 
         label->setEmbedded(true);		

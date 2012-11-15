@@ -80,7 +80,7 @@ public:
     
     virtual void mouseMove(int x, int y ) 
     {
-        if(rect->inside(x, y))
+        if(rect->inside((float) x, (float) y))
         {
             state = CI_UI_STATE_OVER;         
         }    
@@ -106,7 +106,7 @@ public:
     
     virtual void mouseDown(int x, int y, int button) 
     {
-        if(rect->inside(x, y))
+        if(rect->inside((float) x, (float) y))
         {
             hit = true;             
             state = CI_UI_STATE_DOWN;         
@@ -120,7 +120,7 @@ public:
     
     virtual void mouseUp(int x, int y, int button) 
     {
-        if(rect->inside(x, y) && hit)
+        if(rect->inside((float) x, (float) y) && hit)
         {
             setValue(!(*value));
 #if defined( CINDER_COCOA_TOUCH )

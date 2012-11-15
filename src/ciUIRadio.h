@@ -51,7 +51,7 @@ public:
         draw_back = false; 
         orientation = _orientation; 
 		
-		paddedRect = new ciUIRectangle(-padding, -padding, w+padding*2.0, h+padding*2.0);
+		paddedRect = new ciUIRectangle(-padding, -padding, w+padding*2.0f, h+padding*2.0f);
 		paddedRect->setParent(rect); 
 		
 		label = new ciUILabel(0,0,(name+" LABEL"), name, CI_UI_FONT_MEDIUM); 
@@ -59,7 +59,7 @@ public:
 		label->setRectParent(rect); 
         label->setEmbedded(true);
         
-		for(int i = 0; i < names.size(); i++)
+		for(unsigned int i = 0; i < names.size(); i++)
 		{
 			string tname = names[i]; 
 			ciUIToggle *toggle = new ciUIToggle(0,0, w, h, false, tname); 
@@ -72,7 +72,7 @@ public:
 	{
 		draw_padded_rect = _draw_padded_rect; 
         label->setDrawPadding(false);
-		for(int i = 0; i < toggles.size(); i++)
+		for(unsigned int i = 0; i < toggles.size(); i++)
 		{
 			ciUIToggle *t = toggles[i]; 			
             t->setDrawPadding(false);             
@@ -83,7 +83,7 @@ public:
 	{
 		draw_padded_rect_outline = _draw_padded_rect_outline; 
         label->setDrawPaddingOutline(false);
-		for(int i = 0; i < toggles.size(); i++)
+		for(unsigned int i = 0; i < toggles.size(); i++)
 		{
 			ciUIToggle *t = toggles[i]; 			
             t->setDrawPaddingOutline(false);             
@@ -99,7 +99,7 @@ public:
     {
         visible = _visible; 
         label->setVisible(visible); 
-		for(int i = 0; i < toggles.size(); i++)
+		for(unsigned int i = 0; i < toggles.size(); i++)
 		{
 			ciUIToggle *t = toggles[i]; 			
             t->setVisible(visible);             
@@ -107,7 +107,7 @@ public:
     }
 	void activateToggle(string _name)
 	{
-		for(int i = 0; i < toggles.size(); i++)
+		for(unsigned int i = 0; i < toggles.size(); i++)
 		{
 			ciUIToggle *t = toggles[i]; 			
 			if(!(t->getName().compare(_name.c_str())))
@@ -132,7 +132,7 @@ public:
 		float xt = 0; 
 		float yt = label->getPaddingRect()->getHeight();
 		
-		for(int i = 0; i < toggles.size(); i++)
+		for(unsigned int i = 0; i < toggles.size(); i++)
 		{
 			ciUIToggle *t = toggles[i]; 			
 			t->setParent(this); 			

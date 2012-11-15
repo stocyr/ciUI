@@ -63,7 +63,7 @@ public:
         name = _name; 				
         kind = CI_UI_WIDGET_CIRCLESLIDER;
         
-		paddedRect = new ciUIRectangle(-padding, -padding, w+padding*2.0, h+padding);
+		paddedRect = new ciUIRectangle(-padding, -padding, w+padding*2.0f, h+padding);
 		paddedRect->setParent(rect);     
         
         draw_fill = true; 
@@ -180,7 +180,7 @@ public:
                     break;
             }
             updateValueRef();
-            hitPoint = Vec2f(x,y);    
+            hitPoint = Vec2f((float) x, (float) y);    
 			triggerEvent(this);             
             state = CI_UI_STATE_DOWN;         
         }    
@@ -193,10 +193,10 @@ public:
     
     void mouseDown(int x, int y, int button) 
     {
-        if(rect->inside(x, y))
+        if(rect->inside((float) x, (float) y))
         {
             hit = true; 
-            hitPoint = Vec2f(x,y); 
+            hitPoint = Vec2f((float) x, (float) y); 
             state = CI_UI_STATE_DOWN;     
 			triggerEvent(this);            
         }    
@@ -268,7 +268,7 @@ public:
         float w = labelrect->getWidth(); 
         float pw = rect->getWidth(); 
         
-        labelrect->setX((int)(pw*.5 - w*.5-padding*.5)); 
+        labelrect->setX((int)(pw*.5f - w*.5f-padding*.5f)); 
     }	
     
 protected:

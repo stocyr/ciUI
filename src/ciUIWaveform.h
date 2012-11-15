@@ -48,7 +48,7 @@ public:
 		name = _name; 				
 		kind = CI_UI_WIDGET_WAVEFORM; 
 		
-		paddedRect = new ciUIRectangle(-padding, -padding, w+padding*2.0, h+padding*2.0);
+		paddedRect = new ciUIRectangle(-padding, -padding, w+padding*2.0f, h+padding*2.0f);
 		paddedRect->setParent(rect); 
 		
         draw_fill = true; 
@@ -65,8 +65,8 @@ public:
 		bufferSize = _bufferSize; 
 		max = _max; 
 		min = _min; 		
-		scale = rect->getHeight()*.5; 
-        inc = rect->getWidth()/((float)bufferSize-1.0);         
+		scale = rect->getHeight()*.5f; 
+        inc = rect->getWidth()/((float)bufferSize-1.0f);         
     }
     
     virtual void drawFill()

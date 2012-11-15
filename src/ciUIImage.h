@@ -91,7 +91,7 @@ public:
 		name = _name; 				
 		kind = CI_UI_WIDGET_IMAGE; 
         showLabel = true; 
-		paddedRect = new ciUIRectangle(-padding, -padding, w+padding*2.0, h+padding);
+		paddedRect = new ciUIRectangle(-padding, -padding, w+padding*2.0f, h+padding);
 		paddedRect->setParent(rect); 
         
         draw_back = false; 
@@ -112,7 +112,7 @@ public:
 		name = _name; 				
 		kind = CI_UI_WIDGET_IMAGE; 
         showLabel = true; 
-		paddedRect = new ciUIRectangle(-padding, -padding, w+padding*2.0, h+padding);
+		paddedRect = new ciUIRectangle(-padding, -padding, w+padding*2.0f, h+padding);
 		paddedRect->setParent(rect); 
         
         draw_back = false; 

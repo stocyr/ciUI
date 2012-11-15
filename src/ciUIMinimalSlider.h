@@ -83,7 +83,7 @@ public:
         name = _name; 				
         kind = CI_UI_WIDGET_MINIMALSLIDER;
         
-		paddedRect = new ciUIRectangle(-padding, -padding, w+padding*2.0, h+padding);
+		paddedRect = new ciUIRectangle(-padding, -padding, w+padding*2.0f, h+padding);
 		paddedRect->setParent(rect);     
         
         draw_fill = true; 
@@ -115,7 +115,7 @@ public:
 		
 		value = cinder::lmap<float>(value, min, max, 0.0, 1.0); 
         
-        label = new ciUILabel(padding,h*.5,(name+" LABEL"), name, _size); 	        
+        label = new ciUILabel(padding,h*.5f,(name+" LABEL"), name, _size); 	        
         label->setDrawBack(true);         
 		label->setParent(label); 
 		label->setRectParent(rect); 	
@@ -199,10 +199,10 @@ public:
 		float h = labelrect->getHeight(); 
 		float ph = rect->getHeight(); 	
         
-		labelrect->setY(((int)(ph*.5 - h*.5)));
+		labelrect->setY(((int)(ph*.5f - h*.5f)));
         labelrect->setX(padding);
-		paddedRect->setHeight(rect->getHeight()+padding*2.0);  
-        paddedRect->setWidth(rect->getWidth()+padding*2.0);
+		paddedRect->setHeight(rect->getHeight()+padding*2.0f);  
+        paddedRect->setWidth(rect->getWidth()+padding*2.0f);
         updateValueRef();
         updateLabel(); 
 	}	

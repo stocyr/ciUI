@@ -101,7 +101,7 @@ public:
         rightLabel = _rightLabel; 
         kind = CI_UI_WIDGET_BILABELSLIDER; 
         
-		paddedRect = new ciUIRectangle(-padding, -padding, w+padding*2.0, h+padding);
+		paddedRect = new ciUIRectangle(-padding, -padding, w+padding*2.0f, h+padding);
 		paddedRect->setParent(rect);     
         
         draw_fill = true; 
@@ -131,13 +131,13 @@ public:
 		
 		value = ci::lmap<float>(value, min, max, 0.0, 1.0);
         
-        label = new ciUILabel(padding,h*.5,(name+" LABEL"), name, _size); 	
+        label = new ciUILabel(padding,h*.5f,(name+" LABEL"), name, _size); 	
         label->setDrawBack(true); 
 		label->setParent(label); 
 		label->setRectParent(rect); 	
         label->setEmbedded(true);        
 
-        rlabel = new ciUILabel(padding,h*.5,(name+" LABEL"), rightLabel, _size); 	 
+        rlabel = new ciUILabel(padding,h*.5f,(name+" LABEL"), rightLabel, _size); 	 
         rlabel->setDrawBack(true); 
 		rlabel->setParent(rlabel); 
 		rlabel->setRectParent(rect); 	
@@ -214,15 +214,15 @@ public:
 		float h = labelrect->getHeight(); 
 		float ph = rect->getHeight(); 	
         
-		labelrect->setY((int)(ph*.5 - h*.5)); 
+		labelrect->setY((int)(ph*.5f - h*.5f)); 
 
         rightlabelrect->setY(labelrect->getRawY());
-        rightlabelrect->setX(rect->getWidth()-rightlabelrect->getWidth()-padding*2.0); 
+        rightlabelrect->setX(rect->getWidth()-rightlabelrect->getWidth()-padding*2.0f); 
         labelrect->setX(padding);
 
 
-		paddedRect->setHeight(rect->getHeight()+padding*2.0);  
-        paddedRect->setWidth(rect->getWidth()+padding*2.0);
+		paddedRect->setHeight(rect->getHeight()+padding*2.0f);  
+        paddedRect->setWidth(rect->getWidth()+padding*2.0f);
         updateValueRef();
         updateLabel(); 
 	}	

@@ -63,8 +63,8 @@ public:
         y = _y;
         width = _w;
         height = _h;
-        halfwidth = width*.5;                 
-        halfheight = height*.5;                
+        halfwidth = width*.5f;                 
+        halfheight = height*.5f;                
         setParent(NULL); 
     }
     
@@ -75,8 +75,8 @@ public:
         y = pos.y;
         width = _w;
         height = _h;        
-        halfwidth = width*.5;                 
-        halfheight = height*.5;      
+        halfwidth = width*.5f;                 
+        halfheight = height*.5f;      
         setParent(NULL);
     }
     
@@ -87,8 +87,8 @@ public:
         y = r.y;
         width = r.width;
         height = r.height;
-        halfwidth = width*.5;                 
-        halfheight = height*.5;        
+        halfwidth = width*.5f;                 
+        halfheight = height*.5f;        
         setParent(NULL);
     }
     
@@ -98,8 +98,8 @@ public:
         y		= py;
         width	= w;
         height	= h;
-        halfwidth = width*.5;                 
-        halfheight = height*.5;                            
+        halfwidth = width*.5f;                 
+        halfheight = height*.5f;                            
     }
     
     void set(ci::Vec2f pos, float w, float h)
@@ -108,8 +108,8 @@ public:
         y		= pos.y;
         width	= w;
         height	= h;
-        halfwidth = width*.5;                 
-        halfheight = height*.5;  
+        halfwidth = width*.5f;                 
+        halfheight = height*.5f;  
     }
     
     void set(ciUIRectangle const & rect)
@@ -118,8 +118,8 @@ public:
         y		= rect.y;
         width	= rect.width;
         height	= rect.height;
-        halfwidth = width*.5;                 
-        halfheight = height*.5;            
+        halfwidth = width*.5f;                 
+        halfheight = height*.5f;            
     }
     
     void setFromCenter(float px, float py, float w, float h)
@@ -128,8 +128,8 @@ public:
         y		= py - h*0.5f;
         width	= w;
         height	= h;
-        halfwidth = width*.5;                 
-        halfheight = height*.5;                 
+        halfwidth = width*.5f;                 
+        halfheight = height*.5f;                 
     }
     
     void setFromCenter(ci::Vec2f pos, float w, float h)
@@ -138,8 +138,8 @@ public:
         y		= pos.y - h*0.5f;
         width	= w;
         height	= h;
-        halfwidth = width*.5;                 
-        halfheight = height*.5;              
+        halfwidth = width*.5f;                 
+        halfheight = height*.5f;              
     }
     
     ciUIRectangle & operator = (ciUIRectangle const & rect)
@@ -148,8 +148,8 @@ public:
         y = rect.y;
         width = rect.width;
         height = rect.height;
-        halfwidth = width*.5;                 
-        halfheight = height*.5;                                 
+        halfwidth = width*.5f;                 
+        halfheight = height*.5f;                                 
         return *this;
     }
     
@@ -184,13 +184,13 @@ public:
     void setHeight(float _height)
 	{
 		height = _height; 
-        halfheight = height*.5;               
+        halfheight = height*.5f;               
 	}
 	
 	void setWidth(float _width)
 	{
 		width = _width; 
-        halfwidth = width*.5;               
+        halfwidth = width*.5f;               
 	}
 
     
