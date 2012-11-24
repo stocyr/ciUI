@@ -74,7 +74,7 @@ public:
 		name = _name; 				
         kind = CI_UI_WIDGET_ROTARYSLIDER;  			
 		
-		paddedRect = new ciUIRectangle(-padding, -padding, w+padding*2.0, w+padding);
+		paddedRect = new ciUIRectangle(-padding, -padding, w+padding*2.0f, w+padding);
 		paddedRect->setParent(rect); 
         
         draw_fill = true; 
@@ -102,8 +102,8 @@ public:
 			value = min; 
 		}
         
-        outerRadius = rect->getWidth()*.5; 
-        innerRadius = rect->getWidth()*.25;         
+        outerRadius = rect->getWidth()*.5f; 
+        innerRadius = rect->getWidth()*.25f;         
 		
 		value = ci::lmap<float>(value, min, max, 0.0, 1.0);
         
@@ -111,7 +111,7 @@ public:
 		label->setParent(label); 
 		label->setRectParent(rect); 		
         label->setEmbedded(true);        
-		increment = 0.1;              
+		increment = 0.1f;              
     }
     
     virtual void update()
@@ -180,7 +180,7 @@ public:
     
     void mouseMove(int x, int y ) 
     {
-        if(rect->inside(x, y))
+        if(rect->inside((float) x, (float) y))
         {
             state = CI_UI_STATE_OVER;         
         }    
@@ -196,7 +196,7 @@ public:
         if(hit)
         {
             state = CI_UI_STATE_DOWN;     
-			input(x, y); 
+			input((float) x, (float) y); 
 			triggerEvent(this); 			
         }    
         else
@@ -208,11 +208,11 @@ public:
     
     void mouseDown(int x, int y, int button) 
     {
-        if(rect->inside(x, y))
+        if(rect->inside((float) x, (float) y))
         {
             hit = true; 
             state = CI_UI_STATE_DOWN;     
-			input(x, y); 
+			input((float) x, (float) y); 
 			triggerEvent(this); 
         }    
         else
@@ -231,7 +231,7 @@ public:
 #else            
             state = CI_UI_STATE_OVER; 
 #endif 
-			input(x, y); 
+			input((float) x, (float) y); 
 			triggerEvent(this); 			
         }    
         else
@@ -349,7 +349,7 @@ public:
         Vec2f cVector = center-homePoint;        
         cVector.normalized();
             
-        value = ci::lmap<float>(atan2(cVector.x*mappedHitPoint.y-cVector.y*mappedHitPoint.x, cVector.x*mappedHitPoint.x + cVector.y*mappedHitPoint.y ), -M_PI, M_PI, 0, 1.0);
+        value = ci::lmap<float>(atan2(cVector.x*mappedHitPoint.y-cVector.y*mappedHitPoint.x, cVector.x*mappedHitPoint.x + cVector.y*mappedHitPoint.y ), -M_PI, M_PI, 0.0f, 1.0f);
         
         if(value > 1.0)
         {
@@ -452,12 +452,12 @@ public:
 	{
 		parent = _parent; 
 		paddedRect->setHeight( paddedRect->getHeight() + label->getPaddingRect()->getHeight()); 
-        if(label->getPaddingRect()->getWidth()+padding*2.0 > paddedRect->getWidth())
+        if(label->getPaddingRect()->getWidth()+padding*2.0f > paddedRect->getWidth())
         {
             paddedRect->setWidth(label->getPaddingRect()->getWidth());         
         }
-        center = Vec2f(rect->getWidth()*.5, rect->getHeight()*.5);   
-        homePoint = Vec2f(rect->getWidth()*.5, rect->getHeight());   
+        center = Vec2f(rect->getWidth()*.5f, rect->getHeight()*.5f);   
+        homePoint = Vec2f(rect->getWidth()*.5f, rect->getHeight());   
 	}	
     
     bool isDraggable()

@@ -110,7 +110,7 @@ public:
               
         draw_back = CI_UI_LABEL_DRAW_BACK; 
         draw_fill = true; 
-		paddedRect = new ciUIRectangle(-padding, -padding, padding*2.0, padding*2.0);
+		paddedRect = new ciUIRectangle(-padding, -padding, padding*2.0f, padding*2.0f);
 		paddedRect->setParent(rect); 
     }
     
@@ -187,14 +187,16 @@ public:
             
             rect->setWidth(w); 
             rect->setHeight(h); 		 
-            paddedRect->setWidth(w+padding*2.0); 
-            paddedRect->setHeight(h+padding*2.0);
+            paddedRect->setWidth(w+padding*2.0f); 
+            paddedRect->setHeight(h+padding*2.0f);
             xOffset = 0;
-            yOffset = getStringHeight(label)-padding;
+
+			// Gaz: Replace with numeric cast eventually...
+			yOffset = (int) getStringHeight(label)-padding;
         }
         else
         {
-            while(getStringWidth(label) > rect->getWidth()-padding*4.0)
+            while(getStringWidth(label) > rect->getWidth()-padding*4.0f)
             {
                 std::string::iterator it;
                 it=label.begin();
@@ -207,9 +209,9 @@ public:
                 rect->setHeight(h);
             }
 
-            paddedRect->setHeight(rect->getHeight()+padding*2.0);            
-            paddedRect->setWidth(rect->getWidth()+padding*2.0);            
-            xOffset = (int) (rect->getWidth()*.5 - w*.5);
+            paddedRect->setHeight(rect->getHeight()+padding*2.0f);            
+            paddedRect->setWidth(rect->getWidth()+padding*2.0f);            
+            xOffset = (int) (rect->getWidth()*.5f - w*.5f);
             yOffset = getStringHeight(label)-padding;
         }
 	}

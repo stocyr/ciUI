@@ -48,7 +48,7 @@ public:
 		name = _name; 				
 		kind = CI_UI_WIDGET_SPECTRUM; 
 		
-		paddedRect = new ciUIRectangle(-padding, -padding, w+padding*2.0, h+padding*2.0);
+		paddedRect = new ciUIRectangle(-padding, -padding, w+padding*2.0f, h+padding*2.0f);
 		paddedRect->setParent(rect); 
         
         draw_fill = true; 
@@ -66,7 +66,7 @@ public:
 		max = _max; 
 		min = _min; 		
 		scale = rect->getHeight(); 
-		inc = rect->getWidth()/((float)bufferSize-1.0); 
+		inc = rect->getWidth()/((float)bufferSize-1.0f); 
     }
     
     

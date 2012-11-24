@@ -43,11 +43,11 @@ public:
     void initSampler()
     {
         label->setVisible(false);          
-        value.x = .5; 
-		value.y = .5; 
+        value.x = .5f; 
+		value.y = .5f; 
         kind = CI_UI_WIDGET_IMAGESAMPLER; 
         squareSize = CI_UI_GLOBAL_WIDGET_SPACING;
-        squareSizeHalf = .5*squareSize; 
+        squareSizeHalf = .5f*squareSize; 
         input(value.x*rect->getWidth(),value.y*rect->getHeight());
         increment = 1.0; 
     }
@@ -151,7 +151,7 @@ public:
     
     void mouseMove(int x, int y ) 
     {
-        if(rect->inside(x, y))
+        if(rect->inside((float) x, (float) y))
         {
             state = CI_UI_STATE_OVER;         
         }    
@@ -179,7 +179,7 @@ public:
     
     void mouseDown(int x, int y, int button) 
     {
-        if(rect->inside(x, y))
+        if(rect->inside((float) x, (float) y))
         {
             hit = true; 
             state = CI_UI_STATE_DOWN;     
@@ -248,8 +248,8 @@ public:
     
     void input(int x, int y)
     {
-		value.x = rect->percentInside(x, y).x; 			
-		value.y = rect->percentInside(x, y).y; 	
+		value.x = rect->percentInside((float) x, (float) y).x; 			
+		value.y = rect->percentInside((float) x, (float) y).y; 	
         if(value.x > 1.0)
         {
             value.x = 1.0;             

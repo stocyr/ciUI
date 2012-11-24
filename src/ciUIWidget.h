@@ -449,7 +449,7 @@ public:
 	virtual void setPadding(float _padding)
 	{
 		padding = _padding; 
-		paddedRect->set(-padding, -padding, rect->getWidth()+padding*2.0, rect->getHeight()+padding*2.0);
+		paddedRect->set(-padding, -padding, rect->getWidth()+padding*2.0f, rect->getHeight()+padding*2.0f);
 	}
 	
 	virtual float getPadding()

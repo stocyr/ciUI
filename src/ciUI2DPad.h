@@ -98,7 +98,7 @@ public:
     {
 		name = _name; 				
 		kind = CI_UI_WIDGET_2DPAD; 		
-		paddedRect = new ciUIRectangle(-padding, -padding, w+padding*2.0, h+padding);
+		paddedRect = new ciUIRectangle(-padding, -padding, w+padding*2.0f, h+padding);
 		paddedRect->setParent(rect); 
         draw_fill = true;                 
         value = *_value;                                               //the widget's value
@@ -207,7 +207,7 @@ public:
 
     void mouseMove(int x, int y ) 
     {
-        if(rect->inside(x, y))
+        if(rect->inside((float) x, (float) y))
         {
             state = CI_UI_STATE_OVER;         
         }    
@@ -223,7 +223,7 @@ public:
         if(hit)
         {
             state = CI_UI_STATE_DOWN;     
-			input(x, y); 
+			input((float) x, (float) y); 
 			triggerEvent(this); 			
         }    
         else
@@ -235,11 +235,11 @@ public:
     
     void mouseDown(int x, int y, int button) 
     {
-        if(rect->inside(x, y))
+        if(rect->inside((float) x, (float) y))
         {
             hit = true; 
             state = CI_UI_STATE_DOWN;     
-			input(x, y); 
+			input((float) x, (float) y); 
 			triggerEvent(this); 
         }    
         else
@@ -258,7 +258,7 @@ public:
 #else            
             state = CI_UI_STATE_OVER; 
 #endif 
-			input(x, y); 
+			input((float) x, (float) y); 
 			triggerEvent(this); 			
         }    
         else

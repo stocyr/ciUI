@@ -66,7 +66,7 @@ public:
     {
 		name = _name; 		        
 		kind = CI_UI_WIDGET_DROPDOWNLIST; 		        
-		paddedRect = new ciUIRectangle(-padding, -padding, padding*2.0, padding*2.0);
+		paddedRect = new ciUIRectangle(-padding, -padding, padding*2.0f, padding*2.0f);
 		paddedRect->setParent(rect);     
         
         size = _size; 
@@ -98,7 +98,7 @@ public:
     {        
         float yt = rect->getHeight();
         
-		for(int i = 0; i < toggles.size(); i++)
+		for(unsigned int i = 0; i < toggles.size(); i++)
 		{
 			ciUILabelToggle *t = toggles[i]; 			
             yt +=t->getRect()->getHeight();         
@@ -134,7 +134,7 @@ public:
     void removeToggle(string toggleName)
     {
         ciUILabelToggle *t = NULL; 
-        for(int i = 0; i < toggles.size(); i++)
+        for(unsigned int i = 0; i < toggles.size(); i++)
         {
             ciUILabelToggle *other = (ciUILabelToggle *)toggles[i];
             if(other->getName() == toggleName)
@@ -144,7 +144,7 @@ public:
                 break; 
             }
         }
-        for(int i = 0; i < selected.size(); i++)
+        for(unsigned int i = 0; i < selected.size(); i++)
         {
             ciUILabelToggle *other = (ciUILabelToggle *)selected[i];
             if(other->getName() == toggleName)
@@ -158,7 +158,7 @@ public:
             parent->removeWidget(t);
             
             float yt = rect->getHeight();
-            for(int i = 0; i < toggles.size(); i++)
+            for(unsigned int i = 0; i < toggles.size(); i++)
             {
                 ciUILabelToggle *t = toggles[i]; 			
                 t->setParent(this); 
@@ -202,7 +202,7 @@ public:
     void initToggles(vector<string> &items, int _size)
     {
         float ty = 20;
-		for(int i = 0; i < items.size(); i++)
+		for(unsigned int i = 0; i < items.size(); i++)
 		{
 			string tname = items[i]; 
 			ciUILabelToggle *ltoggle; 
@@ -224,11 +224,11 @@ public:
     void setParent(ciUIWidget *_parent)
 	{
 		parent = _parent;         
-        rect->setHeight(label->getPaddingRect()->getHeight()+padding*2.0); 
+        rect->setHeight(label->getPaddingRect()->getHeight()+padding*2.0f); 
 		ciUIRectangle *labelrect = label->getRect(); 
         if(autoSize)
         {
-            rect->setWidth(label->getPaddingRect()->getWidth()+padding*2.0);             
+            rect->setWidth(label->getPaddingRect()->getWidth()+padding*2.0f);             
         }
         else
         {
@@ -248,10 +248,10 @@ public:
         float w = labelrect->getWidth(); 
         float pw = rect->getWidth(); 
         
-		labelrect->setY((int)(ph*.5 - h*.5));
-        labelrect->setX((int)(pw*.5 - w*.5-padding*.5)); 
-		paddedRect->setHeight(rect->getHeight()+padding*2.0);  
-        paddedRect->setWidth(rect->getWidth()+padding*2.0);          
+		labelrect->setY((int)(ph*.5f - h*.5f));
+        labelrect->setX((int)(pw*.5f - w*.5f-padding*.5f)); 
+		paddedRect->setHeight(rect->getHeight()+padding*2.0f);  
+        paddedRect->setWidth(rect->getWidth()+padding*2.0f);          
                     
 		float yt = rect->getHeight();
 		for(int i = 0; i < toggles.size(); i++)
@@ -272,7 +272,7 @@ public:
     
     void mouseUp(int x, int y, int button) 
     {
-        if(rect->inside(x, y) && hit)
+        if(rect->inside((float) x, (float) y) && hit)
         {
             setValue(!(*value));
             setToggleVisibility(*value); 
@@ -312,7 +312,7 @@ public:
     {
         visible = _visible; 
         label->setVisible(visible); 
-        for(int i = 0; i < toggles.size(); i++)
+        for(unsigned int i = 0; i < toggles.size(); i++)
         {
             ciUILabelToggle * toggle = (ciUILabelToggle *) toggles[i];
             toggle->setVisible(visible); 
@@ -321,7 +321,7 @@ public:
     
     void setToggleVisibility(bool _value)
     {
-        for(int i = 0; i < toggles.size(); i++)
+        for(unsigned int i = 0; i < toggles.size(); i++)
         {
             ciUILabelToggle * toggle = (ciUILabelToggle *) toggles[i];
             toggle->setVisible(_value); 
@@ -356,7 +356,7 @@ public:
         }
         
         selected.clear();
-        for(int i = 0; i < toggles.size(); i++)
+        for(unsigned int i = 0; i < toggles.size(); i++)
 		{
 			ciUILabelToggle *t = toggles[i]; 		
             if(t->getValue())
@@ -374,7 +374,7 @@ public:
     
 	void activateToggle(string _name)
 	{
-		for(int i = 0; i < toggles.size(); i++)
+		for(unsigned int i = 0; i < toggles.size(); i++)
 		{
 			ciUILabelToggle *t = toggles[i]; 			
 			if(!(t->getName().compare(_name.c_str())))

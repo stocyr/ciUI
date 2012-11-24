@@ -63,7 +63,7 @@ public:
         vel = Vec2f(0.0f,0.0f); 
         pos = ppos = Vec2f(0.0f,0.0f); 
         acc = Vec2f(0.0f,0.0f); 
-        damping = .90; 
+        damping = .90f; 
         scrollX = false; 
         scrollY = true; 
         
@@ -92,20 +92,20 @@ public:
     {
         sRect->setX(0); 
         sRect->setY(0); 
-        sRect->setWidth(getWindowWidth());
-        sRect->setHeight(getWindowHeight());                        
+        sRect->setWidth((float) getWindowWidth());
+        sRect->setHeight((float) getWindowHeight());                        
     }
     
     void setScrollAreaToScreenWidth()
     {
         sRect->setX(0); 
-        sRect->setWidth(getWindowWidth());        
+        sRect->setWidth((float) getWindowWidth());        
     }    
 
     void setScrollAreaToScreenHeight()
     {
         sRect->setY(0);        
-        sRect->setHeight(getWindowHeight());                                
+        sRect->setHeight((float) getWindowHeight());                                
     }
     
     void setScrollableDirections(bool _scrollX, bool _scrollY)
@@ -139,23 +139,23 @@ public:
                 
                 if(dxLeft > 0)
                 {
-                    acc.x += (-dxLeft)/10.0;
-                    acc.x -=vel.x*(1.0-damping); 
+                    acc.x += (-dxLeft)/10.0f;
+                    acc.x -=vel.x*(1.0f-damping); 
                 }
                 else if(nearLeft)
                 {
-                    acc.x += (-dxLeft)/10.0;
-                    acc.x -=vel.x*(1.0-damping); 
+                    acc.x += (-dxLeft)/10.0f;
+                    acc.x -=vel.x*(1.0f-damping); 
                 }                
                 else if(dxRight > 0)
                 {
-                    acc.x += (dxRight)/10.0;
-                    acc.x -=vel.x*(1.0-damping); 	
+                    acc.x += (dxRight)/10.0f;
+                    acc.x -=vel.x*(1.0f-damping); 	
                 }
                 else if(nearRight)
                 {
-                    acc.x += (dxRight)/10.0;
-                    acc.x -=vel.x*(1.0-damping); 	
+                    acc.x += (dxRight)/10.0f;
+                    acc.x -=vel.x*(1.0f-damping); 	
                 }                
             }
             
@@ -179,23 +179,23 @@ public:
                    
                 if(dyTop > 0)
                 {
-                    acc.y += (-dyTop)/10.0;
-                    acc.y -=vel.y*(1.0-damping); 
+                    acc.y += (-dyTop)/10.0f;
+                    acc.y -=vel.y*(1.0f-damping); 
                 }
                 else if(nearTop)
                 {
-                    acc.y += (-dyTop)/10.0;
-                    acc.y -=vel.y*(1.0-damping);                     
+                    acc.y += (-dyTop)/10.0f;
+                    acc.y -=vel.y*(1.0f-damping);                     
                 }
                 else if(dyBot > 0)
                 {
-                    acc.y += (dyBot)/10.0;
-                    acc.y -=vel.y*(1.0-damping); 	
+                    acc.y += (dyBot)/10.0f;
+                    acc.y -=vel.y*(1.0f-damping); 	
                 }                                     
                 else if(nearBot)
                 {
-                    acc.y += (dyBot)/10.0;
-                    acc.y -=vel.y*(1.0-damping); 	
+                    acc.y += (dyBot)/10.0f;
+                    acc.y -=vel.y*(1.0f-damping); 	
                 }
             }
             
@@ -209,7 +209,7 @@ public:
             acc = Vec2f(0,0); 
         }
         
-		for(int i = 0; i < widgets.size(); i++)
+		for(unsigned int i = 0; i < widgets.size(); i++)
 		{            
 			widgets[i]->update(); 	
 		}		
@@ -265,7 +265,7 @@ public:
         
     bool canvasMouseDrag( MouseEvent event ) 
     {	
-        for(int i = 0; i < widgets.size(); i++)
+        for(unsigned int i = 0; i < widgets.size(); i++)
         {
             if(widgets[i]->isVisible())	widgets[i]->mouseDrag(event.getX(), event.getY(), event.isRightDown());  
         }
@@ -277,12 +277,12 @@ public:
                 if(isScrolling != true)
                 {
                     isScrolling = true; 
-                    ppos = Vec2f(event.getX(),event.getY());
+                    ppos = Vec2f((float) event.getX(), (float) event.getY());
                     vel = Vec2f(0,0); 
                 }
                 else
                 {
-                    pos = Vec2f(event.getX(), event.getY());             
+                    pos = Vec2f((float) event.getX(), (float) event.getY());             
                     vel = pos-ppos; 
                     if(scrollX) rect->setX(rect->getRawX() + vel.x);
                     if(scrollY) rect->setY(rect->getRawY() + vel.y);             
@@ -295,14 +295,14 @@ public:
     
     bool canvasMouseDown( MouseEvent event ) 
     {
-        if(sRect->inside(event.getX(), event.getY()))
+        if(sRect->inside((float) event.getX(), (float) event.getY()))
         {
             hit = true; 
-            for(int i = 0; i < widgets.size(); i++)
+            for(unsigned int i = 0; i < widgets.size(); i++)
             {
                 if(widgets[i]->isVisible())
                 {
-                    if(widgets[i]->isHit(event.getX(), event.getY()))
+                    if(widgets[i]->isHit((float) event.getX(), (float) event.getY()))
                     {            
                         if(widgets[i]->isDraggable())
                         {
@@ -321,7 +321,7 @@ public:
     
     bool canvasMouseUp( MouseEvent event ) 
     {	
-        for(int i = 0; i < widgets.size(); i++)
+        for(unsigned int i = 0; i < widgets.size(); i++)
         {
             if(widgets[i]->isVisible()) widgets[i]->mouseUp(event.getX(), event.getY(), event.isRightDown()); 
         }            
@@ -331,7 +331,7 @@ public:
         if(isScrolling)
         {
             isScrolling = false; 
-            pos = Vec2f(event.getX(),event.getY());
+            pos = Vec2f((float) event.getX(), (float) event.getY());
         }
         return false;         
     }	

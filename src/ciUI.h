@@ -37,14 +37,14 @@ using namespace std;
 #define CI_UI_GLOBAL_PADDING 4
 #define CI_UI_GLOBAL_WIDGET_SPACING 8
 
-#define CI_UI_COLOR_BACK ci::ColorA(0,0,0, 50.0/255.0)                       //the rect's back color
-#define CI_UI_COLOR_OUTLINE ci::ColorA(1, 1, 1, 100.0/255.0)                 //the rect's outline color 
-#define CI_UI_COLOR_OUTLINE_HIGHLIGHT ci::ColorA(1, 1, 1, 200.0/255.0)       //the rect's onMouseOver outline highlight color         
-#define CI_UI_COLOR_FILL ci::ColorA(1, 1, 1, 200.0/255.0)                    //the rect's fill color 
-#define CI_UI_COLOR_FILL_HIGHLIGHT ci::ColorA(1.0, 1.0, 1.0, 1.0)            //the rect's onMouseDown highlight color 
+#define CI_UI_COLOR_BACK ci::ColorA(0.0f, 0.0f, 0.0f, 50.0f/255.0f)                       //the rect's back color
+#define CI_UI_COLOR_OUTLINE ci::ColorA(1.0f, 1.0f, 1.0f, 100.0f/255.0f)                 //the rect's outline color 
+#define CI_UI_COLOR_OUTLINE_HIGHLIGHT ci::ColorA(1.0f, 1.0f, 1.0f, 200.0f/255.0f)       //the rect's onMouseOver outline highlight color         
+#define CI_UI_COLOR_FILL ci::ColorA(1.0f, 1.0f, 1.0f, 200.0f/255.0f)                    //the rect's fill color 
+#define CI_UI_COLOR_FILL_HIGHLIGHT ci::ColorA(1.0f, 1.0f, 1.0f, 1.0f)            //the rect's onMouseDown highlight color 
 
-#define CI_UI_COLOR_PADDED ci::ColorA(0,0,0, 100.0/255.0)                                //the rect's padded color
-#define CI_UI_COLOR_PADDED_OUTLINE ci::ColorA(1.0,1.0,1.0, 200.0/255.0)                      //the rect's padded outline color 
+#define CI_UI_COLOR_PADDED ci::ColorA(0.0f,0.0f,0.0f, 100.0f/255.0f)                                //the rect's padded color
+#define CI_UI_COLOR_PADDED_OUTLINE ci::ColorA(1.0f, 1.0f, 1.0f, 200.0f/255.0f)                      //the rect's padded outline color 
 
 #define CI_UI_DRAW_PADDING false
 #define CI_UI_DRAW_PADDING_OUTLINE false

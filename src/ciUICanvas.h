@@ -48,7 +48,7 @@ public:
     ~ciUICanvas() 
     {
 		delete GUIevent; 
-		for(int i = 0; i < widgets.size(); i++)
+		for(unsigned int i = 0; i < widgets.size(); i++)
 		{
 			ciUIWidget *w = widgets[i]; 
 			delete w; 
@@ -70,8 +70,8 @@ public:
     
     ciUICanvas() 
     {
-        float w = ci::app::getWindowWidth();
-        float h = ci::app::getWindowHeight();
+        float w = (float) ci::app::getWindowWidth();
+        float h = (float) ci::app::getWindowHeight();
         rect = new ciUIRectangle(0,0,w,h); 
         init(w, h);
         setDrawBack(false); 
@@ -79,8 +79,8 @@ public:
 
     ciUICanvas(ciUICanvas *sharedResources) 
     {
-        float w = ci::app::getWindowWidth();
-        float h = ci::app::getWindowHeight();
+        float w = (float) ci::app::getWindowWidth();
+        float h = (float) ci::app::getWindowHeight();
         rect = new ciUIRectangle(0,0,w,h); 
         init(w, h, sharedResources);
         setDrawBack(false); 
@@ -105,7 +105,7 @@ public:
         
 		GUIevent = new ciUIEvent(this); 
         
-		paddedRect = new ciUIRectangle(-padding, -padding, w+padding*2.0, h+padding*2.0);
+		paddedRect = new ciUIRectangle(-padding, -padding, w+padding*2.0f, h+padding*2.0f);
 		paddedRect->setParent(rect);
 
         if(sharedResources != NULL)
@@ -137,7 +137,7 @@ public:
         try
         {
             XmlTree settings( "Settings", "" );
-            for(int i = 0; i < widgetsWithState.size(); i++)
+            for(unsigned int i = 0; i < widgetsWithState.size(); i++)
             {                
                 XmlTree widget( "Widget", "" );
                 widget.push_back( XmlTree( "Kind", numToString(widgetsWithState[i]->getKind(),0) ) );
@@ -551,7 +551,7 @@ public:
     {		
         if(enabled)
         {           
-            for(int i = 0; i < widgets.size(); i++)
+            for(unsigned int i = 0; i < widgets.size(); i++)
             {
                 widgets[i]->update(); 	
             }		
@@ -638,9 +638,9 @@ public:
     
 	virtual bool canvasMouseMove( MouseEvent event ) 
     {
-        if(rect->inside(event.getX(), event.getY()))
+        if(rect->inside((float) event.getX(), (float) event.getY()))
         {
-			for(int i = 0; i < widgets.size(); i++)
+			for(unsigned int i = 0; i < widgets.size(); i++)
 			{                
 				if(widgets[i]->isVisible()) widgets[i]->mouseMove(event.getX(), event.getY()); 
 			}
@@ -650,7 +650,7 @@ public:
     
     virtual bool canvasMouseDrag( MouseEvent event ) 
     {		
-        for(int i = 0; i < widgets.size(); i++)
+        for(unsigned int i = 0; i < widgets.size(); i++)
         {
             if(widgets[i]->isVisible())	widgets[i]->mouseDrag(event.getX(), event.getY(), event.isRightDown()); 
         }     
@@ -659,9 +659,9 @@ public:
     
     virtual bool canvasMouseDown( MouseEvent event ) 
     {
-        if(rect->inside(event.getX(), event.getY()))
+        if(rect->inside((float) event.getX(), (float) event.getY()))
         {
-			for(int i = 0; i < widgets.size(); i++)
+			for(unsigned int i = 0; i < widgets.size(); i++)
 			{
 				if(widgets[i]->isVisible()) widgets[i]->mouseDown(event.getX(), event.getY(), event.isRightDown()); 
 			}
@@ -671,7 +671,7 @@ public:
     
     virtual bool canvasMouseUp( MouseEvent event ) 
     {		        
-        for(int i = 0; i < widgets.size(); i++)
+        for(unsigned int i = 0; i < widgets.size(); i++)
         {
             if(widgets[i]->isVisible()) widgets[i]->mouseUp(event.getX(), event.getY(), event.isRightDown()); 
         }    
@@ -682,7 +682,7 @@ public:
 
     virtual bool canvasKeyDown( KeyEvent event )
     {
-        for(int i = 0; i < widgets.size(); i++)
+        for(unsigned int i = 0; i < widgets.size(); i++)
 		{
 			widgets[i]->keyDown(event);
 		}
@@ -691,7 +691,7 @@ public:
 
     virtual bool canvasKeyUp( KeyEvent event )
     {
-		for(int i = 0; i < widgets.size(); i++)
+		for(unsigned int i = 0; i < widgets.size(); i++)
 		{
 			widgets[i]->keyUp(event);
 		}
@@ -702,7 +702,7 @@ public:
     {
         if(isEnabled())
         {
-            return rect->inside(x, y);
+            return rect->inside((float) x, (float) y);
         }
         else
         {
@@ -714,7 +714,7 @@ public:
     {
         if(isEnabled() && rect->inside(x, y))
         {
-            for(int i = 0; i < widgets.size(); i++)
+            for(unsigned int i = 0; i < widgets.size(); i++)
             {
                 if(widgets[i]->isHit(x, y))
                 {
@@ -775,7 +775,7 @@ public:
         float maxWidth = 0;
         float maxHeight = 0;
 
-        for(int i = 0; i < widgets.size(); i++)
+        for(unsigned int i = 0; i < widgets.size(); i++)
         {
             if(widgets[i]->isVisible())
             {
@@ -797,8 +797,8 @@ public:
         
         rect->setWidth(maxWidth);
         rect->setHeight(maxHeight);
-        paddedRect->setWidth(rect->getWidth()+padding*2.0);
-        paddedRect->setHeight(rect->getHeight()+padding*2.0);        
+        paddedRect->setWidth(rect->getWidth()+padding*2.0f);
+        paddedRect->setHeight(rect->getHeight()+padding*2.0f);        
     }
     
     void centerWidgetsOnCanvas(bool centerHorizontally=true, bool centerVertically=true)
@@ -812,7 +812,7 @@ public:
         float w = 0; 
         float h = 0; 
         
-        for(int i = 0; i < widgets.size(); i++)
+        for(unsigned int i = 0; i < widgets.size(); i++)
         {
 //            if(widgets[i]->isVisible())
 //            {
@@ -840,10 +840,10 @@ public:
         w = xMax - xMin;
         h = yMax - yMin;            
         
-        float moveDeltaX = rect->getHalfWidth() - w*.5; 
-        float moveDeltaY = rect->getHalfHeight() - h*.5;
+        float moveDeltaX = rect->getHalfWidth() - w*.5f; 
+        float moveDeltaY = rect->getHalfHeight() - h*.5f;
                 
-        for(int i = 0; i < widgets.size(); i++)
+        for(unsigned int i = 0; i < widgets.size(); i++)
         {
             if(widgets[i]->isVisible() && !(widgets[i]->isEmbedded()))
             {
@@ -884,7 +884,7 @@ public:
             widgets_map.erase(it);     
         }
                 
-        for(int i = 0; i < widgetsWithState.size(); i++)
+        for(unsigned int i = 0; i < widgetsWithState.size(); i++)
         {
             ciUIWidget *other = widgetsWithState[i]; 
             if(widget->getName() == other->getName())
@@ -1001,7 +1001,7 @@ public:
 			pushbackWidget(label); 		
             
             vector<ciUILabelToggle *> toggles = list->getToggles(); 
-			for(int i = 0; i < toggles.size(); i++)
+			for(unsigned int i = 0; i < toggles.size(); i++)
 			{
 				ciUILabelToggle *t = toggles[i]; 
 				ciUILabel *l2 = (ciUILabel *) t->getLabel();
@@ -1039,7 +1039,7 @@ public:
 			
 			vector<ciUIToggle *> toggles = radio->getToggles(); 
 			
-			for(int i = 0; i < toggles.size(); i++)
+			for(unsigned int i = 0; i < toggles.size(); i++)
 			{
 				ciUIToggle *t = toggles[i]; 
 				ciUILabel *l2 = (ciUILabel *) t->getLabel();
@@ -1059,7 +1059,7 @@ public:
 			
 			vector<ciUIToggle *> toggles = matrix->getToggles(); 
 			
-			for(int i = 0; i < toggles.size(); i++)
+			for(unsigned int i = 0; i < toggles.size(); i++)
 			{
 				ciUIToggle *t = toggles[i]; 
 				ciUILabel *l2 = (ciUILabel *) t->getLabel();
@@ -1397,13 +1397,13 @@ public:
 
             case CI_UI_THEME_HACKER:
             {
-                ColorA cb = ColorA( 0.294118, 0, 0.0588235, 0.196078 );
-                ColorA co = ColorA( 0.254902, 0.239216, 0.239216, 0.392157 );
-                ColorA coh = ColorA( 0.294118, 0, 0.0588235, 0.784314 );
-                ColorA cf = ColorA( 0.784314, 1, 0, 0.784314 );
-                ColorA cfh = ColorA( 0.980392, 0.00784314, 0.235294, 1 );
-                ColorA cp = ColorA( 0.0156863, 0, 0.0156863, 0.392157 );
-                ColorA cpo = ColorA( 0.254902, 0.239216, 0.239216, 0.784314 );
+                ColorA cb = ColorA( 0.294118f, 0, 0.0588235f, 0.196078f );
+                ColorA co = ColorA( 0.254902f, 0.239216f, 0.239216f, 0.392157f );
+                ColorA coh = ColorA( 0.294118f, 0, 0.0588235f, 0.784314f );
+                ColorA cf = ColorA( 0.784314f, 1, 0, 0.784314f );
+                ColorA cfh = ColorA( 0.980392f, 0.00784314f, 0.235294f, 1 );
+                ColorA cp = ColorA( 0.0156863f, 0, 0.0156863f, 0.392157f );
+                ColorA cpo = ColorA( 0.254902f, 0.239216f, 0.239216f, 0.784314f );
                 setUIColors( cb, co, coh, cf, cfh, cp, cpo );                                 
             }
                 break;  
@@ -1411,559 +1411,559 @@ public:
                 
         case CI_UI_THEME_HIPSTER:
             {
-                ColorA cb = ColorA( 0.607843, 0.6, 0.509804, 0.196078 );
-                ColorA co = ColorA( 0.231373, 0.392157, 0.501961, 0.392157 );
-                ColorA coh = ColorA( 0.607843, 0.6, 0.509804, 0.784314 );
-                ColorA cf = ColorA( 1, 0.52549, 0.0666667, 0.784314 );
-                ColorA cfh = ColorA( 0.0313725, 0.101961, 0.188235, 1 );
-                ColorA cp = ColorA( 0.196078, 0.25098, 0.352941, 0.392157 );
-                ColorA cpo = ColorA( 0.231373, 0.392157, 0.501961, 0.784314 );
+                ColorA cb = ColorA( 0.607843f, 0.6f, 0.509804f, 0.196078f );
+                ColorA co = ColorA( 0.231373f, 0.392157f, 0.501961f, 0.392157f );
+                ColorA coh = ColorA( 0.607843f, 0.6f, 0.509804f, 0.784314f );
+                ColorA cf = ColorA( 1, 0.52549f, 0.0666667f, 0.784314f );
+                ColorA cfh = ColorA( 0.0313725f, 0.101961f, 0.188235f, 1 );
+                ColorA cp = ColorA( 0.196078f, 0.25098f, 0.352941f, 0.392157f );
+                ColorA cpo = ColorA( 0.231373f, 0.392157f, 0.501961f, 0.784314f );
                 setUIColors( cb, co, coh, cf, cfh, cp, cpo );                                 
             }
                 break;  
 
             case CI_UI_THEME_DIETER:
             {
-                ColorA cb = ColorA( 0.803922, 0.741176, 0.682353, 0.196078 );
-                ColorA co = ColorA( 0.478431, 0.356863, 0.243137, 0.392157 );
-                ColorA coh = ColorA( 0.803922, 0.741176, 0.682353, 0.784314 );
-                ColorA cf = ColorA( 0.980392, 0.294118, 0, 0.784314 );
-                ColorA cfh = ColorA( 0.980392, 0.980392, 0.980392, 1 );
-                ColorA cp = ColorA( 0.121569, 0.121569, 0.121569, 0.392157 );
-                ColorA cpo = ColorA( 0.478431, 0.356863, 0.243137, 0.784314 );
+                ColorA cb = ColorA( 0.803922f, 0.741176f, 0.682353f, 0.196078f );
+                ColorA co = ColorA( 0.478431f, 0.356863f, 0.243137f, 0.392157f );
+                ColorA coh = ColorA( 0.803922f, 0.741176f, 0.682353f, 0.784314f );
+                ColorA cf = ColorA( 0.980392f, 0.294118f, 0, 0.784314f );
+                ColorA cfh = ColorA( 0.980392f, 0.980392f, 0.980392f, 1 );
+                ColorA cp = ColorA( 0.121569f, 0.121569f, 0.121569f, 0.392157f );
+                ColorA cpo = ColorA( 0.478431f, 0.356863f, 0.243137f, 0.784314f );
                 setUIColors( cb, co, coh, cf, cfh, cp, cpo );                                 
             }
                 break;  
 
             case CI_UI_THEME_BARBIE:
             {
-                ColorA cb = ColorA( 0.92549, 0, 0.54902, 0.196078 );
-                ColorA co = ColorA( 0, 0, 0, 0.392157 );
-                ColorA coh = ColorA( 0, 0.678431, 0.937255, 0.784314 );
-                ColorA cf = ColorA( 0.92549, 0, 0.54902, 0.784314 );
-                ColorA cfh = ColorA( 1, 0.94902, 0, 1 );
-                ColorA cp = ColorA( 0, 0, 0, 0.392157 );
-                ColorA cpo = ColorA( 0, 0.678431, 0.937255, 0.784314 ); 
+                ColorA cb = ColorA( 0.92549f, 0, 0.54902f, 0.196078f );
+                ColorA co = ColorA( 0, 0, 0, 0.392157f );
+                ColorA coh = ColorA( 0, 0.678431f, 0.937255f, 0.784314f );
+                ColorA cf = ColorA( 0.92549f, 0, 0.54902f, 0.784314f );
+                ColorA cfh = ColorA( 1, 0.94902f, 0, 1 );
+                ColorA cp = ColorA( 0, 0, 0, 0.392157f );
+                ColorA cpo = ColorA( 0, 0.678431f, 0.937255f, 0.784314f ); 
                 setUIColors( cb, co, coh, cf, cfh, cp, cpo );                                 
             }
                 break;  
 
             case CI_UI_THEME_WINDOWS:
             {
-                ColorA cb = ColorA( 0.0470588, 0.0588235, 0.4, 0.196078 );
-                ColorA co = ColorA( 0.0431373, 0.0627451, 0.54902, 0.392157 );
-                ColorA coh = ColorA( 0.0470588, 0.0588235, 0.4, 0.784314 );
-                ColorA cf = ColorA( 0.054902, 0.305882, 0.678431, 0.784314 );
-                ColorA cfh = ColorA( 0.0627451, 0.498039, 0.788235, 1 );
-                ColorA cp = ColorA( 0.027451, 0.0352941, 0.239216, 0.392157 );
-                ColorA cpo = ColorA( 0.0431373, 0.0627451, 0.54902, 0.784314 );
+                ColorA cb = ColorA( 0.0470588f, 0.0588235f, 0.4f, 0.196078f );
+                ColorA co = ColorA( 0.0431373f, 0.0627451f, 0.54902f, 0.392157f );
+                ColorA coh = ColorA( 0.0470588f, 0.0588235f, 0.4f, 0.784314f );
+                ColorA cf = ColorA( 0.054902f, 0.305882f, 0.678431f, 0.784314f );
+                ColorA cfh = ColorA( 0.0627451f, 0.498039f, 0.788235f, 1 );
+                ColorA cp = ColorA( 0.027451f, 0.0352941f, 0.239216f, 0.392157f );
+                ColorA cpo = ColorA( 0.0431373f, 0.0627451f, 0.54902f, 0.784314f );
                 setUIColors( cb, co, coh, cf, cfh, cp, cpo );                                 
             }
                 break;  
 
             case CI_UI_THEME_MACOSX:
             {
-                ColorA cb = ColorA( 0, 0.678431, 0.937255, 0.196078 );
-                ColorA co = ColorA( 1, 0.94902, 0, 0.392157 );
-                ColorA coh = ColorA( 0, 0, 0, 0.784314 );
-                ColorA cf = ColorA( 0, 0.678431, 0.937255, 0.784314 );
-                ColorA cfh = ColorA( 0.92549, 0, 0.54902, 1 );
-                ColorA cp = ColorA( 1, 0.94902, 0, 0.392157 );
-                ColorA cpo = ColorA( 0, 0, 0, 0.784314 );
+                ColorA cb = ColorA( 0, 0.678431f, 0.937255f, 0.196078f );
+                ColorA co = ColorA( 1, 0.94902f, 0, 0.392157f );
+                ColorA coh = ColorA( 0, 0, 0, 0.784314f );
+                ColorA cf = ColorA( 0, 0.678431f, 0.937255f, 0.784314f );
+                ColorA cfh = ColorA( 0.92549f, 0, 0.54902f, 1 );
+                ColorA cp = ColorA( 1, 0.94902f, 0, 0.392157f );
+                ColorA cpo = ColorA( 0, 0, 0, 0.784314f );
                 setUIColors( cb, co, coh, cf, cfh, cp, cpo );                                 
             }
                 break;  
 
             case CI_UI_THEME_ZOOLANDER:
             {
-                ColorA cb = ColorA( 0.160784, 0.133333, 0.121569, 0.196078 );
-                ColorA co = ColorA( 0.0745098, 0.454902, 0.490196, 0.392157 );
-                ColorA coh = ColorA( 0.160784, 0.133333, 0.121569, 0.784314 );
-                ColorA cf = ColorA( 0.988235, 0.207843, 0.298039, 0.784314 );
-                ColorA cfh = ColorA( 0.988235, 0.968627, 0.772549, 1 );
-                ColorA cp = ColorA( 0.0392157, 0.74902, 0.737255, 0.392157 );
-                ColorA cpo = ColorA( 0.0745098, 0.454902, 0.490196, 0.784314 );
+                ColorA cb = ColorA( 0.160784f, 0.133333f, 0.121569f, 0.196078f );
+                ColorA co = ColorA( 0.0745098f, 0.454902f, 0.490196f, 0.392157f );
+                ColorA coh = ColorA( 0.160784f, 0.133333f, 0.121569f, 0.784314f );
+                ColorA cf = ColorA( 0.988235f, 0.207843f, 0.298039f, 0.784314f );
+                ColorA cfh = ColorA( 0.988235f, 0.968627f, 0.772549f, 1 );
+                ColorA cp = ColorA( 0.0392157f, 0.74902f, 0.737255f, 0.392157f );
+                ColorA cpo = ColorA( 0.0745098f, 0.454902f, 0.490196f, 0.784314f );
                 setUIColors( cb, co, coh, cf, cfh, cp, cpo );                                 
             }
                 break;  
 
             case CI_UI_THEME_VEGAN2:
             {
-                ColorA cb = ColorA( 0.745098, 0.94902, 0.00784314, 0.196078 );
-                ColorA co = ColorA( 0.533333, 0.768627, 0.145098, 0.392157 );
-                ColorA coh = ColorA( 0.745098, 0.94902, 0.00784314, 0.784314 );
-                ColorA cf = ColorA( 0.917647, 0.992157, 0.901961, 0.784314 );
-                ColorA cfh = ColorA( 0.105882, 0.403922, 0.419608, 1 );
-                ColorA cp = ColorA( 0.317647, 0.584314, 0.282353, 0.392157 );
-                ColorA cpo = ColorA( 0.533333, 0.768627, 0.145098, 0.784314 );                
+                ColorA cb = ColorA( 0.745098f, 0.94902f, 0.00784314f, 0.196078f );
+                ColorA co = ColorA( 0.533333f, 0.768627f, 0.145098f, 0.392157f );
+                ColorA coh = ColorA( 0.745098f, 0.94902f, 0.00784314f, 0.784314f );
+                ColorA cf = ColorA( 0.917647f, 0.992157f, 0.901961f, 0.784314f );
+                ColorA cfh = ColorA( 0.105882f, 0.403922f, 0.419608f, 1 );
+                ColorA cp = ColorA( 0.317647f, 0.584314f, 0.282353f, 0.392157f );
+                ColorA cpo = ColorA( 0.533333f, 0.768627f, 0.145098f, 0.784314f );                
                 setUIColors( cb, co, coh, cf, cfh, cp, cpo );                                 
             }
                 break;  
 
             case CI_UI_THEME_BERLIN:
             {
-                ColorA cb = ColorA( 0.6, 0.894118, 1, 0.196078 );
-                ColorA co = ColorA( 0.294118, 0.34902, 0.419608, 0.392157 );
-                ColorA coh = ColorA( 0.6, 0.894118, 1, 0.784314 );
-                ColorA cf = ColorA( 0.968627, 0.309804, 0.309804, 0.784314 );
-                ColorA cfh = ColorA( 1, 0.231373, 0.231373, 1 );
-                ColorA cp = ColorA( 0.105882, 0.12549, 0.14902, 0.392157 );
-                ColorA cpo = ColorA( 0.294118, 0.34902, 0.419608, 0.784314 ); 
+                ColorA cb = ColorA( 0.6f, 0.894118f, 1, 0.196078f );
+                ColorA co = ColorA( 0.294118f, 0.34902f, 0.419608f, 0.392157f );
+                ColorA coh = ColorA( 0.6f, 0.894118f, 1, 0.784314f );
+                ColorA cf = ColorA( 0.968627f, 0.309804f, 0.309804f, 0.784314f );
+                ColorA cfh = ColorA( 1, 0.231373f, 0.231373f, 1 );
+                ColorA cp = ColorA( 0.105882f, 0.12549f, 0.14902f, 0.392157f );
+                ColorA cpo = ColorA( 0.294118f, 0.34902f, 0.419608f, 0.784314f ); 
                 setUIColors( cb, co, coh, cf, cfh, cp, cpo );                                 
             }
                 break;  
                 
             case CI_UI_THEME_METALGEAR:
             {
-                ColorA cb = ColorA( 0.2, 0.172549, 0.172549, 0.294118 );
-                ColorA co = ColorA( 0.0980392, 0.101961, 0.141176, 0.392157 );
-                ColorA coh = ColorA( 0.2, 0.172549, 0.172549, 0.784314 );
-                ColorA cf = ColorA( 0.980392, 0.396078, 0.341176, 0.784314 );
+                ColorA cb = ColorA( 0.2f, 0.172549f, 0.172549f, 0.294118f );
+                ColorA co = ColorA( 0.0980392f, 0.101961f, 0.141176f, 0.392157f );
+                ColorA coh = ColorA( 0.2f, 0.172549f, 0.172549f, 0.784314f );
+                ColorA cf = ColorA( 0.980392f, 0.396078f, 0.341176f, 0.784314f );
                 ColorA cfh = ColorA( 1, 1, 1, 1 );
-                ColorA cp = ColorA( 0, 0, 0, 0.392157 );
-                ColorA cpo = ColorA( 0.0980392, 0.101961, 0.141176, 0.784314 );
+                ColorA cp = ColorA( 0, 0, 0, 0.392157f );
+                ColorA cpo = ColorA( 0.0980392f, 0.101961f, 0.141176f, 0.784314f );
                 setUIColors( cb, co, coh, cf, cfh, cp, cpo );                                 
             }
                 break;  
                 
             case CI_UI_THEME_TEALLIME:
             {
-                ColorA cb = ColorA( 0.105882, 0.403922, 0.419608, 0.294118 );
-                ColorA co = ColorA( 0.917647, 0.992157, 0.901961, 0.392157 );
-                ColorA coh = ColorA( 0.105882, 0.403922, 0.419608, 0.784314 );
-                ColorA cf = ColorA( 0.317647, 0.584314, 0.282353, 0.784314 );
-                ColorA cfh = ColorA( 0.533333, 0.768627, 0.145098, 1 );
-                ColorA cp = ColorA( 0.745098, 0.94902, 0.00784314, 0.392157 );
-                ColorA cpo = ColorA( 0.917647, 0.992157, 0.901961, 0.784314 );
+                ColorA cb = ColorA( 0.105882f, 0.403922f, 0.419608f, 0.294118f );
+                ColorA co = ColorA( 0.917647f, 0.992157f, 0.901961f, 0.392157f );
+                ColorA coh = ColorA( 0.105882f, 0.403922f, 0.419608f, 0.784314f );
+                ColorA cf = ColorA( 0.317647f, 0.584314f, 0.282353f, 0.784314f );
+                ColorA cfh = ColorA( 0.533333f, 0.768627f, 0.145098f, 1 );
+                ColorA cp = ColorA( 0.745098f, 0.94902f, 0.00784314f, 0.392157f );
+                ColorA cpo = ColorA( 0.917647f, 0.992157f, 0.901961f, 0.784314f );
                 setUIColors( cb, co, coh, cf, cfh, cp, cpo );                                 
             }
                 break;  
 
             case CI_UI_THEME_VEGAN:
             {
-                ColorA cb = ColorA( 0.317647, 0.584314, 0.282353, 0.294118 );
-                ColorA co = ColorA( 0.105882, 0.403922, 0.419608, 0.392157 );
-                ColorA coh = ColorA( 0.317647, 0.584314, 0.282353, 0.784314 );
-                ColorA cf = ColorA( 0.533333, 0.768627, 0.145098, 0.784314 );
-                ColorA cfh = ColorA( 0.745098, 0.94902, 0.00784314, 1 );
-                ColorA cp = ColorA( 0.917647, 0.992157, 0.901961, 0.392157 );
-                ColorA cpo = ColorA( 0.105882, 0.403922, 0.419608, 0.784314 );
+                ColorA cb = ColorA( 0.317647f, 0.584314f, 0.282353f, 0.294118f );
+                ColorA co = ColorA( 0.105882f, 0.403922f, 0.419608f, 0.392157f );
+                ColorA coh = ColorA( 0.317647f, 0.584314f, 0.282353f, 0.784314f );
+                ColorA cf = ColorA( 0.533333f, 0.768627f, 0.145098f, 0.784314f );
+                ColorA cfh = ColorA( 0.745098f, 0.94902f, 0.00784314f, 1 );
+                ColorA cp = ColorA( 0.917647f, 0.992157f, 0.901961f, 0.392157f );
+                ColorA cpo = ColorA( 0.105882f, 0.403922f, 0.419608f, 0.784314f );
                 setUIColors( cb, co, coh, cf, cfh, cp, cpo );                                 
             }
                 break;  
 
             case CI_UI_THEME_RUSTIC:
             {
-                ColorA cb = ColorA( 0.768627, 0.713725, 0.427451, 0.294118 );
-                ColorA co = ColorA( 0.968627, 0.427451, 0.235294, 0.392157 );
-                ColorA coh = ColorA( 0.768627, 0.713725, 0.427451, 0.784314 );
-                ColorA cf = ColorA( 0.835294, 0.152941, 0.0196078, 0.784314 );
-                ColorA cfh = ColorA( 0.941176, 0.827451, 0.466667, 1 );
-                ColorA cp = ColorA( 0.952941, 0.909804, 0.894118, 0.392157 );
-                ColorA cpo = ColorA( 0.968627, 0.427451, 0.235294, 0.784314 );
+                ColorA cb = ColorA( 0.768627f, 0.713725f, 0.427451f, 0.294118f );
+                ColorA co = ColorA( 0.968627f, 0.427451f, 0.235294f, 0.392157f );
+                ColorA coh = ColorA( 0.768627f, 0.713725f, 0.427451f, 0.784314f );
+                ColorA cf = ColorA( 0.835294f, 0.152941f, 0.0196078f, 0.784314f );
+                ColorA cfh = ColorA( 0.941176f, 0.827451f, 0.466667f, 1 );
+                ColorA cp = ColorA( 0.952941f, 0.909804f, 0.894118f, 0.392157f );
+                ColorA cpo = ColorA( 0.968627f, 0.427451f, 0.235294f, 0.784314f );
                 setUIColors( cb, co, coh, cf, cfh, cp, cpo );                                 
             }
                 break;  
                             
             case CI_UI_THEME_MIDNIGHT:
             {
-                ColorA cb = ColorA( 0.0431373, 0.282353, 0.419608, 0.294118 );
-                ColorA co = ColorA( 0.811765, 0.941176, 0.619608, 0.392157 );
-                ColorA coh = ColorA( 0.0431373, 0.282353, 0.419608, 0.784314 );
-                ColorA cf = ColorA( 0.231373, 0.52549, 0.52549, 0.784314 );
-                ColorA cfh = ColorA( 0.47451, 0.741176, 0.603922, 1 );
-                ColorA cp = ColorA( 0.658824, 0.858824, 0.658824, 0.392157 );
-                ColorA cpo = ColorA( 0.811765, 0.941176, 0.619608, 0.784314 );
+                ColorA cb = ColorA( 0.0431373f, 0.282353f, 0.419608f, 0.294118f );
+                ColorA co = ColorA( 0.811765f, 0.941176f, 0.619608f, 0.392157f );
+                ColorA coh = ColorA( 0.0431373f, 0.282353f, 0.419608f, 0.784314f );
+                ColorA cf = ColorA( 0.231373f, 0.52549f, 0.52549f, 0.784314f );
+                ColorA cfh = ColorA( 0.47451f, 0.741176f, 0.603922f, 1 );
+                ColorA cp = ColorA( 0.658824f, 0.858824f, 0.658824f, 0.392157f );
+                ColorA cpo = ColorA( 0.811765f, 0.941176f, 0.619608f, 0.784314f );
                 setUIColors( cb, co, coh, cf, cfh, cp, cpo );                                 
             }
                 break;  
                                 
             case CI_UI_THEME_MINBLUE:
             {
-                ColorA cb = ColorA( 0.996078, 0.976471, 0.941176, 0.294118 );
-                ColorA co = ColorA( 0.690196, 0.972549, 1, 0.392157 );
-                ColorA coh = ColorA( 0.996078, 0.976471, 0.941176, 0.784314 );
-                ColorA cf = ColorA( 0, 0.737255, 0.819608, 0.784314 );
-                ColorA cfh = ColorA( 0.462745, 0.827451, 0.870588, 1 );
-                ColorA cp = ColorA( 0.682353, 0.909804, 0.984314, 0.392157 );
-                ColorA cpo = ColorA( 0.690196, 0.972549, 1, 0.784314 );
+                ColorA cb = ColorA( 0.996078f, 0.976471f, 0.941176f, 0.294118f );
+                ColorA co = ColorA( 0.690196f, 0.972549f, 1, 0.392157f );
+                ColorA coh = ColorA( 0.996078f, 0.976471f, 0.941176f, 0.784314f );
+                ColorA cf = ColorA( 0, 0.737255f, 0.819608f, 0.784314f );
+                ColorA cfh = ColorA( 0.462745f, 0.827451f, 0.870588f, 1 );
+                ColorA cp = ColorA( 0.682353f, 0.909804f, 0.984314f, 0.392157f );
+                ColorA cpo = ColorA( 0.690196f, 0.972549f, 1, 0.784314f );
                 setUIColors( cb, co, coh, cf, cfh, cp, cpo );                                 
             }
                 break;  
                             
             case CI_UI_THEME_LIMESTONE:
             {
-                ColorA cb = ColorA( 0.423529, 0.564706, 0.52549, 0.294118 );
-                ColorA co = ColorA( 0.988235, 0.329412, 0.388235, 0.392157 );
-                ColorA coh = ColorA( 0.423529, 0.564706, 0.52549, 0.784314 );
-                ColorA cf = ColorA( 0.662745, 0.8, 0.0941176, 0.784314 );
-                ColorA cfh = ColorA( 0.811765, 0.286275, 0.423529, 1 );
-                ColorA cp = ColorA( 0.921569, 0.917647, 0.737255, 0.392157 );
-                ColorA cpo = ColorA( 0.988235, 0.329412, 0.388235, 0.784314 );
+                ColorA cb = ColorA( 0.423529f, 0.564706f, 0.52549f, 0.294118f );
+                ColorA co = ColorA( 0.988235f, 0.329412f, 0.388235f, 0.392157f );
+                ColorA coh = ColorA( 0.423529f, 0.564706f, 0.52549f, 0.784314f );
+                ColorA cf = ColorA( 0.662745f, 0.8f, 0.0941176f, 0.784314f );
+                ColorA cfh = ColorA( 0.811765f, 0.286275f, 0.423529f, 1 );
+                ColorA cp = ColorA( 0.921569f, 0.917647f, 0.737255f, 0.392157f );
+                ColorA cpo = ColorA( 0.988235f, 0.329412f, 0.388235f, 0.784314f );
                 setUIColors( cb, co, coh, cf, cfh, cp, cpo );                                 
             }
                 break;                  
                 
             case CI_UI_THEME_SPEARMINT:
             {
-                ColorA cb = ColorA( 0.0980392, 0.54902, 0.0352941, 0.294118 );
-                ColorA co = ColorA( 1, 0.772549, 0.372549, 0.392157 );
-                ColorA coh = ColorA( 0.0980392, 0.54902, 0.0352941, 0.784314 );
-                ColorA cf = ColorA( 0.862745, 0.980392, 0.980392, 0.784314 );
-                ColorA cfh = ColorA( 0.937255, 0.345098, 0.552941, 1 );
-                ColorA cp = ColorA( 0.996078, 0.662745, 0.0705882, 0.392157 );
-                ColorA cpo = ColorA( 1, 0.772549, 0.372549, 0.784314 );
+                ColorA cb = ColorA( 0.0980392f, 0.54902f, 0.0352941f, 0.294118f );
+                ColorA co = ColorA( 1, 0.772549f, 0.372549f, 0.392157f );
+                ColorA coh = ColorA( 0.0980392f, 0.54902f, 0.0352941f, 0.784314f );
+                ColorA cf = ColorA( 0.862745f, 0.980392f, 0.980392f, 0.784314f );
+                ColorA cfh = ColorA( 0.937255f, 0.345098f, 0.552941f, 1 );
+                ColorA cp = ColorA( 0.996078f, 0.662745f, 0.0705882f, 0.392157f );
+                ColorA cpo = ColorA( 1, 0.772549f, 0.372549f, 0.784314f );
                 setUIColors( cb, co, coh, cf, cfh, cp, cpo );                                 
             }
                 break;                  
                 
             case CI_UI_THEME_MINPINK:
             {
-                ColorA cb = ColorA( 0.862745, 0.980392, 0.980392, 0.294118 );
-                ColorA co = ColorA( 0.0980392, 0.54902, 0.0352941, 0.392157 );
-                ColorA coh = ColorA( 0.862745, 0.980392, 0.980392, 0.784314 );
-                ColorA cf = ColorA( 0.937255, 0.345098, 0.552941, 0.784314 );
-                ColorA cfh = ColorA( 0.996078, 0.662745, 0.0705882, 1 );
-                ColorA cp = ColorA( 1, 0.772549, 0.372549, 0.392157 );
-                ColorA cpo = ColorA( 0.0980392, 0.54902, 0.0352941, 0.784314 );
+                ColorA cb = ColorA( 0.862745f, 0.980392f, 0.980392f, 0.294118f );
+                ColorA co = ColorA( 0.0980392f, 0.54902f, 0.0352941f, 0.392157f );
+                ColorA coh = ColorA( 0.862745f, 0.980392f, 0.980392f, 0.784314f );
+                ColorA cf = ColorA( 0.937255f, 0.345098f, 0.552941f, 0.784314f );
+                ColorA cfh = ColorA( 0.996078f, 0.662745f, 0.0705882f, 1 );
+                ColorA cp = ColorA( 1, 0.772549f, 0.372549f, 0.392157f );
+                ColorA cpo = ColorA( 0.0980392f, 0.54902f, 0.0352941f, 0.784314f );
                 setUIColors( cb, co, coh, cf, cfh, cp, cpo );                                 
             }
                 break;  
                 
             case CI_UI_THEME_PEPTOBISMOL:
             {
-                ColorA cb = ColorA( 0.87451, 0.0823529, 0.101961, 0.294118 );
-                ColorA co = ColorA( 0, 0.854902, 0.235294, 0.392157 );
-                ColorA coh = ColorA( 0.87451, 0.0823529, 0.101961, 0.784314 );
-                ColorA cf = ColorA( 0.956863, 0.952941, 0.156863, 0.784314 );
-                ColorA cfh = ColorA( 0.992157, 0.52549, 0.0117647, 1 );
-                ColorA cp = ColorA( 0, 0.796078, 0.905882, 0.392157 );
-                ColorA cpo = ColorA( 0, 0.854902, 0.235294, 0.784314 );
+                ColorA cb = ColorA( 0.87451f, 0.0823529f, 0.101961f, 0.294118f );
+                ColorA co = ColorA( 0, 0.854902f, 0.235294f, 0.392157f );
+                ColorA coh = ColorA( 0.87451f, 0.0823529f, 0.101961f, 0.784314f );
+                ColorA cf = ColorA( 0.956863f, 0.952941f, 0.156863f, 0.784314f );
+                ColorA cfh = ColorA( 0.992157f, 0.52549f, 0.0117647f, 1 );
+                ColorA cp = ColorA( 0, 0.796078f, 0.905882f, 0.392157f );
+                ColorA cpo = ColorA( 0, 0.854902f, 0.235294f, 0.784314f );
                 setUIColors( cb, co, coh, cf, cfh, cp, cpo );                                 
             }
                 break;  
                 
             case CI_UI_THEME_BILEBLUE:
             {
-                ColorA cb = ColorA( 0.992157, 0.52549, 0.0117647, 0.294118 );
-                ColorA co = ColorA( 0.956863, 0.952941, 0.156863, 0.392157 );
-                ColorA coh = ColorA( 0.992157, 0.52549, 0.0117647, 0.784314 );
-                ColorA cf = ColorA( 0, 0.796078, 0.905882, 0.784314 );
-                ColorA cfh = ColorA( 0, 0.854902, 0.235294, 1 );
-                ColorA cp = ColorA( 0.87451, 0.0823529, 0.101961, 0.392157 );
-                ColorA cpo = ColorA( 0.956863, 0.952941, 0.156863, 0.784314 );
+                ColorA cb = ColorA( 0.992157f, 0.52549f, 0.0117647f, 0.294118f );
+                ColorA co = ColorA( 0.956863f, 0.952941f, 0.156863f, 0.392157f );
+                ColorA coh = ColorA( 0.992157f, 0.52549f, 0.0117647f, 0.784314f );
+                ColorA cf = ColorA( 0, 0.796078f, 0.905882f, 0.784314f );
+                ColorA cfh = ColorA( 0, 0.854902f, 0.235294f, 1 );
+                ColorA cp = ColorA( 0.87451f, 0.0823529f, 0.101961f, 0.392157f );
+                ColorA cpo = ColorA( 0.956863f, 0.952941f, 0.156863f, 0.784314f );
                 setUIColors( cb, co, coh, cf, cfh, cp, cpo );                                 
             }
                 break;  
                                 
             case CI_UI_THEME_COOLCLAY:
             {
-                ColorA cb = ColorA( 0.6, 0.894118, 1, 0.294118 );
-                ColorA co = ColorA( 0.294118, 0.34902, 0.419608, 0.392157 );
-                ColorA coh = ColorA( 0.6, 0.894118, 1, 0.784314 );
-                ColorA cf = ColorA( 0.968627, 0.309804, 0.309804, 0.784314 );
-                ColorA cfh = ColorA( 1, 0.231373, 0.231373, 1 );
-                ColorA cp = ColorA( 0.105882, 0.12549, 0.14902, 0.392157 );
-                ColorA cpo = ColorA( 0.294118, 0.34902, 0.419608, 0.784314 );
+                ColorA cb = ColorA( 0.6f, 0.894118f, 1, 0.294118f );
+                ColorA co = ColorA( 0.294118f, 0.34902f, 0.419608f, 0.392157f );
+                ColorA coh = ColorA( 0.6f, 0.894118f, 1, 0.784314f );
+                ColorA cf = ColorA( 0.968627f, 0.309804f, 0.309804f, 0.784314f );
+                ColorA cfh = ColorA( 1, 0.231373f, 0.231373f, 1 );
+                ColorA cp = ColorA( 0.105882f, 0.12549f, 0.14902f, 0.392157f );
+                ColorA cpo = ColorA( 0.294118f, 0.34902f, 0.419608f, 0.784314f );
                 setUIColors( cb, co, coh, cf, cfh, cp, cpo );                                 
             }
                 break;  
                                 
             case CI_UI_THEME_BLUEBLUE:
             {
-                ColorA cb = ColorA( 0, 0.678431, 0.937255, 0.294118 );
-                ColorA co = ColorA( 1, 0.94902, 0, 0.392157 );
-                ColorA coh = ColorA( 0, 0, 0, 0.784314 );
-                ColorA cf = ColorA( 0, 0.678431, 0.937255, 0.784314 );
-                ColorA cfh = ColorA( 0.92549, 0, 0.54902, 1 );
-                ColorA cp = ColorA( 1, 0.94902, 0, 0.392157 );
-                ColorA cpo = ColorA( 0, 0, 0, 0.784314 );
+                ColorA cb = ColorA( 0, 0.678431f, 0.937255f, 0.294118f );
+                ColorA co = ColorA( 1, 0.94902f, 0, 0.392157f );
+                ColorA coh = ColorA( 0, 0, 0, 0.784314f );
+                ColorA cf = ColorA( 0, 0.678431f, 0.937255f, 0.784314f );
+                ColorA cfh = ColorA( 0.92549f, 0, 0.54902f, 1 );
+                ColorA cp = ColorA( 1, 0.94902f, 0, 0.392157f );
+                ColorA cpo = ColorA( 0, 0, 0, 0.784314f );
                 setUIColors( cb, co, coh, cf, cfh, cp, cpo );                                 
             }
                 break;  
                                 
             case CI_UI_THEME_PINKPANTHER:
             {
-                ColorA cb = ColorA( 0.92549, 0, 0.54902, 0.294118 );
-                ColorA co = ColorA( 0, 0, 0, 0.392157 );
-                ColorA coh = ColorA( 0, 0.678431, 0.937255, 0.784314 );
-                ColorA cf = ColorA( 0.92549, 0, 0.54902, 0.784314 );
-                ColorA cfh = ColorA( 1, 0.94902, 0, 1 );
-                ColorA cp = ColorA( 0, 0, 0, 0.392157 );
-                ColorA cpo = ColorA( 0, 0.678431, 0.937255, 0.784314 );
+                ColorA cb = ColorA( 0.92549f, 0, 0.54902f, 0.294118f );
+                ColorA co = ColorA( 0, 0, 0, 0.392157f );
+                ColorA coh = ColorA( 0, 0.678431f, 0.937255f, 0.784314f );
+                ColorA cf = ColorA( 0.92549f, 0, 0.54902f, 0.784314f );
+                ColorA cfh = ColorA( 1, 0.94902f, 0, 1 );
+                ColorA cp = ColorA( 0, 0, 0, 0.392157f );
+                ColorA cpo = ColorA( 0, 0.678431f, 0.937255f, 0.784314f );
                 setUIColors( cb, co, coh, cf, cfh, cp, cpo );                                 
             }
                 break;  
                 
             case CI_UI_THEME_MAROON:
             {
-                ColorA cb = ColorA( 0.396078, 0.588235, 0.619608, 0.294118 );
-                ColorA co = ColorA( 0.858824, 0.85098, 0.823529, 0.392157 );
-                ColorA coh = ColorA( 0.396078, 0.588235, 0.619608, 0.784314 );
-                ColorA cf = ColorA( 0.670588, 0.0784314, 0.172549, 0.784314 );
-                ColorA cfh = ColorA( 0.741176, 0.858824, 0.870588, 1 );
-                ColorA cp = ColorA( 0.803922, 0.831373, 0.423529, 0.392157 );
-                ColorA cpo = ColorA( 0.858824, 0.85098, 0.823529, 0.784314 );
+                ColorA cb = ColorA( 0.396078f, 0.588235f, 0.619608f, 0.294118f );
+                ColorA co = ColorA( 0.858824f, 0.85098f, 0.823529f, 0.392157f );
+                ColorA coh = ColorA( 0.396078f, 0.588235f, 0.619608f, 0.784314f );
+                ColorA cf = ColorA( 0.670588f, 0.0784314f, 0.172549f, 0.784314f );
+                ColorA cfh = ColorA( 0.741176f, 0.858824f, 0.870588f, 1 );
+                ColorA cp = ColorA( 0.803922f, 0.831373f, 0.423529f, 0.392157f );
+                ColorA cpo = ColorA( 0.858824f, 0.85098f, 0.823529f, 0.784314f );
                 setUIColors( cb, co, coh, cf, cfh, cp, cpo );                                 
             }
                 break;  
        
             case CI_UI_THEME_PINKLATTE:
             {
-                ColorA cb = ColorA( 0.854902, 0.847059, 0.654902, 0.294118 );
-                ColorA co = ColorA( 0.498039, 0.780392, 0.686275, 0.392157 );
-                ColorA coh = ColorA( 0.854902, 0.847059, 0.654902, 0.784314 );
-                ColorA cf = ColorA( 1, 0.239216, 0.498039, 0.784314 );
-                ColorA cfh = ColorA( 1, 0.619608, 0.615686, 1 );
-                ColorA cp = ColorA( 0.247059, 0.721569, 0.686275, 0.392157 );
-                ColorA cpo = ColorA( 0.498039, 0.780392, 0.686275, 0.784314 );
+                ColorA cb = ColorA( 0.854902f, 0.847059f, 0.654902f, 0.294118f );
+                ColorA co = ColorA( 0.498039f, 0.780392f, 0.686275f, 0.392157f );
+                ColorA coh = ColorA( 0.854902f, 0.847059f, 0.654902f, 0.784314f );
+                ColorA cf = ColorA( 1, 0.239216f, 0.498039f, 0.784314f );
+                ColorA cfh = ColorA( 1, 0.619608f, 0.615686f, 1 );
+                ColorA cp = ColorA( 0.247059f, 0.721569f, 0.686275f, 0.392157f );
+                ColorA cpo = ColorA( 0.498039f, 0.780392f, 0.686275f, 0.784314f );
                 setUIColors( cb, co, coh, cf, cfh, cp, cpo );                                 
             }
                 break;  
                                 
             case CI_UI_THEME_MINGREEN:
             {
-                ColorA cb = ColorA( 1, 1, 1, 0.294118 );
-                ColorA co = ColorA( 0.94902, 0.901961, 0.760784, 0.392157 );
-                ColorA coh = ColorA( 1, 1, 1, 0.784314 );
-                ColorA cf = ColorA( 0.435294, 0.74902, 0.635294, 0.784314 );
-                ColorA cfh = ColorA( 0.74902, 0.721569, 0.682353, 1 );
-                ColorA cp = ColorA( 0.94902, 0.780392, 0.466667, 0.392157 );
-                ColorA cpo = ColorA( 0.94902, 0.901961, 0.760784, 0.784314 );
+                ColorA cb = ColorA( 1, 1, 1, 0.294118f );
+                ColorA co = ColorA( 0.94902f, 0.901961f, 0.760784f, 0.392157f );
+                ColorA coh = ColorA( 1, 1, 1, 0.784314f );
+                ColorA cf = ColorA( 0.435294f, 0.74902f, 0.635294f, 0.784314f );
+                ColorA cfh = ColorA( 0.74902f, 0.721569f, 0.682353f, 1 );
+                ColorA cp = ColorA( 0.94902f, 0.780392f, 0.466667f, 0.392157f );
+                ColorA cpo = ColorA( 0.94902f, 0.901961f, 0.760784f, 0.784314f );
                 setUIColors( cb, co, coh, cf, cfh, cp, cpo );                                 
             }
                 break;  
                                 
             case CI_UI_THEME_HELLOYELLOW:
             {
-                ColorA cb = ColorA( 1, 0.827451, 0, 0.294118 );
-                ColorA co = ColorA( 0.290196, 0.729412, 0.690196, 0.392157 );
-                ColorA coh = ColorA( 0.596078, 0.129412, 0, 0.784314 );
-                ColorA cf = ColorA( 1, 0.827451, 0, 0.784314 );
-                ColorA cfh = ColorA( 1, 0.960784, 0.619608, 1 );
-                ColorA cp = ColorA( 0.290196, 0.729412, 0.690196, 0.392157 );
-                ColorA cpo = ColorA( 0.596078, 0.129412, 0, 0.784314 );
+                ColorA cb = ColorA( 1, 0.827451f, 0, 0.294118f );
+                ColorA co = ColorA( 0.290196f, 0.729412f, 0.690196f, 0.392157f );
+                ColorA coh = ColorA( 0.596078f, 0.129412f, 0, 0.784314f );
+                ColorA cf = ColorA( 1, 0.827451f, 0, 0.784314f );
+                ColorA cfh = ColorA( 1, 0.960784f, 0.619608f, 1 );
+                ColorA cp = ColorA( 0.290196f, 0.729412f, 0.690196f, 0.392157f );
+                ColorA cpo = ColorA( 0.596078f, 0.129412f, 0, 0.784314f );
                 setUIColors( cb, co, coh, cf, cfh, cp, cpo );                                 
             }
                 break;  
                                 
             case CI_UI_THEME_TEALTEAL:
             {
-                ColorA cb = ColorA( 0.290196, 0.729412, 0.690196, 0.294118 );
-                ColorA co = ColorA( 1, 0.827451, 0, 0.392157 );
-                ColorA coh = ColorA( 1, 0.960784, 0.619608, 0.784314 );
-                ColorA cf = ColorA( 0.290196, 0.729412, 0.690196, 0.784314 );
-                ColorA cfh = ColorA( 0.596078, 0.129412, 0, 1 );
-                ColorA cp = ColorA( 1, 0.827451, 0, 0.392157 );
-                ColorA cpo = ColorA( 1, 0.960784, 0.619608, 0.784314 );
+                ColorA cb = ColorA( 0.290196f, 0.729412f, 0.690196f, 0.294118f );
+                ColorA co = ColorA( 1, 0.827451f, 0, 0.392157f );
+                ColorA coh = ColorA( 1, 0.960784f, 0.619608f, 0.784314f );
+                ColorA cf = ColorA( 0.290196f, 0.729412f, 0.690196f, 0.784314f );
+                ColorA cfh = ColorA( 0.596078f, 0.129412f, 0, 1 );
+                ColorA cp = ColorA( 1, 0.827451f, 0, 0.392157f );
+                ColorA cpo = ColorA( 1, 0.960784f, 0.619608f, 0.784314f );
                 setUIColors( cb, co, coh, cf, cfh, cp, cpo );                                 
             }
                 break;  
                                 
             case CI_UI_THEME_RUSTICORANGE:
             {
-                ColorA cb = ColorA( 0.419608, 0.333333, 0.188235, 0.294118 );
-                ColorA co = ColorA( 0.192157, 0.188235, 0.258824, 0.392157 );
-                ColorA coh = ColorA( 0.419608, 0.333333, 0.188235, 0.784314 );
-                ColorA cf = ColorA( 1, 0.427451, 0.141176, 0.784314 );
-                ColorA cfh = ColorA( 1, 0.921569, 0.419608, 1 );
-                ColorA cp = ColorA( 0.164706, 0.529412, 0.196078, 0.392157 );
-                ColorA cpo = ColorA( 0.192157, 0.188235, 0.258824, 0.784314 );
+                ColorA cb = ColorA( 0.419608f, 0.333333f, 0.188235f, 0.294118f );
+                ColorA co = ColorA( 0.192157f, 0.188235f, 0.258824f, 0.392157f );
+                ColorA coh = ColorA( 0.419608f, 0.333333f, 0.188235f, 0.784314f );
+                ColorA cf = ColorA( 1, 0.427451f, 0.141176f, 0.784314f );
+                ColorA cfh = ColorA( 1, 0.921569f, 0.419608f, 1 );
+                ColorA cp = ColorA( 0.164706f, 0.529412f, 0.196078f, 0.392157f );
+                ColorA cpo = ColorA( 0.192157f, 0.188235f, 0.258824f, 0.784314f );
                 setUIColors( cb, co, coh, cf, cfh, cp, cpo );                                 
             }
                 break;  
                                 
             case CI_UI_THEME_TEALSALMON:
             {
-                ColorA cb = ColorA( 0.305882, 0.521569, 0.533333, 0.294118 );
-                ColorA co = ColorA( 0.219608, 0.270588, 0.231373, 0.392157 );
-                ColorA coh = ColorA( 0.305882, 0.521569, 0.533333, 0.784314 );
-                ColorA cf = ColorA( 1, 0.27451, 0.329412, 0.784314 );
-                ColorA cfh = ColorA( 1, 0.835294, 0.415686, 1 );
-                ColorA cp = ColorA( 1, 0.996078, 0.827451, 0.392157 );
-                ColorA cpo = ColorA( 0.219608, 0.270588, 0.231373, 0.784314 );
+                ColorA cb = ColorA( 0.305882f, 0.521569f, 0.533333f, 0.294118f );
+                ColorA co = ColorA( 0.219608f, 0.270588f, 0.231373f, 0.392157f );
+                ColorA coh = ColorA( 0.305882f, 0.521569f, 0.533333f, 0.784314f );
+                ColorA cf = ColorA( 1, 0.27451f, 0.329412f, 0.784314f );
+                ColorA cfh = ColorA( 1, 0.835294f, 0.415686f, 1 );
+                ColorA cp = ColorA( 1, 0.996078f, 0.827451f, 0.392157f );
+                ColorA cpo = ColorA( 0.219608f, 0.270588f, 0.231373f, 0.784314f );
                 setUIColors( cb, co, coh, cf, cfh, cp, cpo );                                 
             }
                 break;  
                                 
             case CI_UI_THEME_CITRUSBLUE:
             {
-                ColorA cb = ColorA( 0.223529, 0.556863, 0.713725, 0.294118 );
-                ColorA co = ColorA( 0.133333, 0.407843, 0.533333, 0.392157 );
-                ColorA coh = ColorA( 0.223529, 0.556863, 0.713725, 0.784314 );
-                ColorA cf = ColorA( 1, 0.635294, 0, 0.784314 );
-                ColorA cfh = ColorA( 1, 0.839216, 0, 1 );
-                ColorA cp = ColorA( 1, 0.960784, 0, 0.392157 );
-                ColorA cpo = ColorA( 0.133333, 0.407843, 0.533333, 0.784314 );
+                ColorA cb = ColorA( 0.223529f, 0.556863f, 0.713725f, 0.294118f );
+                ColorA co = ColorA( 0.133333f, 0.407843f, 0.533333f, 0.392157f );
+                ColorA coh = ColorA( 0.223529f, 0.556863f, 0.713725f, 0.784314f );
+                ColorA cf = ColorA( 1, 0.635294f, 0, 0.784314f );
+                ColorA cfh = ColorA( 1, 0.839216f, 0, 1 );
+                ColorA cp = ColorA( 1, 0.960784f, 0, 0.392157f );
+                ColorA cpo = ColorA( 0.133333f, 0.407843f, 0.533333f, 0.784314f );
                 setUIColors( cb, co, coh, cf, cfh, cp, cpo );                                 
             }
                 break;  
                                 
             case CI_UI_THEME_LIMEPURPLE:
             {
-                ColorA cb = ColorA( 0.341176, 0.211765, 1, 0.294118 );
-                ColorA co = ColorA( 0.14902, 0.14902, 0.14902, 0.392157 );
-                ColorA coh = ColorA( 0.341176, 0.211765, 1, 0.784314 );
-                ColorA cf = ColorA( 0.905882, 1, 0.211765, 0.784314 );
-                ColorA cfh = ColorA( 1, 0.211765, 0.435294, 1 );
-                ColorA cp = ColorA( 0.137255, 0.454902, 0.870588, 0.392157 );
-                ColorA cpo = ColorA( 0.14902, 0.14902, 0.14902, 0.784314 );
+                ColorA cb = ColorA( 0.341176f, 0.211765f, 1, 0.294118f );
+                ColorA co = ColorA( 0.14902f, 0.14902f, 0.14902f, 0.392157f );
+                ColorA coh = ColorA( 0.341176f, 0.211765f, 1, 0.784314f );
+                ColorA cf = ColorA( 0.905882f, 1, 0.211765f, 0.784314f );
+                ColorA cfh = ColorA( 1, 0.211765f, 0.435294f, 1 );
+                ColorA cp = ColorA( 0.137255f, 0.454902f, 0.870588f, 0.392157f );
+                ColorA cpo = ColorA( 0.14902f, 0.14902f, 0.14902f, 0.784314f );
                 setUIColors( cb, co, coh, cf, cfh, cp, cpo );                                 
             }
                 break;  
                                 
             case CI_UI_THEME_LIMESTONE2:
             {
-                ColorA cb = ColorA( 0.396078, 0.384314, 0.45098, 0.294118 );
-                ColorA co = ColorA( 0.34902, 0.729412, 0.662745, 0.392157 );
-                ColorA coh = ColorA( 0.396078, 0.384314, 0.45098, 0.784314 );
-                ColorA cf = ColorA( 0.847059, 0.945098, 0.443137, 0.784314 );
-                ColorA cfh = ColorA( 0.988235, 1, 0.85098, 1 );
-                ColorA cp = ColorA( 0.25098, 0.0705882, 0.172549, 0.392157 );
-                ColorA cpo = ColorA( 0.34902, 0.729412, 0.662745, 0.784314 );
+                ColorA cb = ColorA( 0.396078f, 0.384314f, 0.45098f, 0.294118f );
+                ColorA co = ColorA( 0.34902f, 0.729412f, 0.662745f, 0.392157f );
+                ColorA coh = ColorA( 0.396078f, 0.384314f, 0.45098f, 0.784314f );
+                ColorA cf = ColorA( 0.847059f, 0.945098f, 0.443137f, 0.784314f );
+                ColorA cfh = ColorA( 0.988235f, 1, 0.85098f, 1 );
+                ColorA cp = ColorA( 0.25098f, 0.0705882f, 0.172549f, 0.392157f );
+                ColorA cpo = ColorA( 0.34902f, 0.729412f, 0.662745f, 0.784314f );
                 setUIColors( cb, co, coh, cf, cfh, cp, cpo );                                 
             }
                 break;  
                                 
             case CI_UI_THEME_COOLPURPLE:
             {
-                ColorA cb = ColorA( 0.14902, 0.537255, 0.913725, 0.294118 );
-                ColorA co = ColorA( 0.0431373, 0.964706, 0.576471, 0.392157 );
-                ColorA coh = ColorA( 0.14902, 0.537255, 0.913725, 0.784314 );
-                ColorA cf = ColorA( 0.913725, 0.101961, 0.615686, 0.784314 );
-                ColorA cfh = ColorA( 0.964706, 0.713725, 0.0431373, 1 );
-                ColorA cp = ColorA( 0.964706, 0.94902, 0.0431373, 0.392157 );
-                ColorA cpo = ColorA( 0.0431373, 0.964706, 0.576471, 0.784314 );
+                ColorA cb = ColorA( 0.14902f, 0.537255f, 0.913725f, 0.294118f );
+                ColorA co = ColorA( 0.0431373f, 0.964706f, 0.576471f, 0.392157f );
+                ColorA coh = ColorA( 0.14902f, 0.537255f, 0.913725f, 0.784314f );
+                ColorA cf = ColorA( 0.913725f, 0.101961f, 0.615686f, 0.784314f );
+                ColorA cfh = ColorA( 0.964706f, 0.713725f, 0.0431373f, 1 );
+                ColorA cp = ColorA( 0.964706f, 0.94902f, 0.0431373f, 0.392157f );
+                ColorA cpo = ColorA( 0.0431373f, 0.964706f, 0.576471f, 0.784314f );
                 setUIColors( cb, co, coh, cf, cfh, cp, cpo );                                 
             }
                 break;  
                 
             case CI_UI_THEME_GRAYRED:
             {
-                ColorA cb = ColorA( 0.160784, 0.133333, 0.121569, 0.294118 );
-                ColorA co = ColorA( 0.0745098, 0.454902, 0.490196, 0.392157 );
-                ColorA coh = ColorA( 0.160784, 0.133333, 0.121569, 0.784314 );
-                ColorA cf = ColorA( 0.988235, 0.207843, 0.298039, 0.784314 );
-                ColorA cfh = ColorA( 0.988235, 0.968627, 0.772549, 1 );
-                ColorA cp = ColorA( 0.0392157, 0.74902, 0.737255, 0.392157 );
-                ColorA cpo = ColorA( 0.0745098, 0.454902, 0.490196, 0.784314 );
+                ColorA cb = ColorA( 0.160784f, 0.133333f, 0.121569f, 0.294118f );
+                ColorA co = ColorA( 0.0745098f, 0.454902f, 0.490196f, 0.392157f );
+                ColorA coh = ColorA( 0.160784f, 0.133333f, 0.121569f, 0.784314f );
+                ColorA cf = ColorA( 0.988235f, 0.207843f, 0.298039f, 0.784314f );
+                ColorA cfh = ColorA( 0.988235f, 0.968627f, 0.772549f, 1 );
+                ColorA cp = ColorA( 0.0392157f, 0.74902f, 0.737255f, 0.392157f );
+                ColorA cpo = ColorA( 0.0745098f, 0.454902f, 0.490196f, 0.784314f );
                 setUIColors( cb, co, coh, cf, cfh, cp, cpo );                                 
             }
                 break;  
                 
             case CI_UI_THEME_METALGEAR2:
             {
-                ColorA cb = ColorA( 0.803922, 0.741176, 0.682353, 0.294118 );
-                ColorA co = ColorA( 0.478431, 0.356863, 0.243137, 0.392157 );
-                ColorA coh = ColorA( 0.803922, 0.741176, 0.682353, 0.784314 );
-                ColorA cf = ColorA( 0.980392, 0.294118, 0, 0.784314 );
-                ColorA cfh = ColorA( 0.980392, 0.980392, 0.980392, 1 );
-                ColorA cp = ColorA( 0.121569, 0.121569, 0.121569, 0.392157 );
-                ColorA cpo = ColorA( 0.478431, 0.356863, 0.243137, 0.784314 );
+                ColorA cb = ColorA( 0.803922f, 0.741176f, 0.682353f, 0.294118f );
+                ColorA co = ColorA( 0.478431f, 0.356863f, 0.243137f, 0.392157f );
+                ColorA coh = ColorA( 0.803922f, 0.741176f, 0.682353f, 0.784314f );
+                ColorA cf = ColorA( 0.980392f, 0.294118f, 0, 0.784314f );
+                ColorA cfh = ColorA( 0.980392f, 0.980392f, 0.980392f, 1 );
+                ColorA cp = ColorA( 0.121569f, 0.121569f, 0.121569f, 0.392157f );
+                ColorA cpo = ColorA( 0.478431f, 0.356863f, 0.243137f, 0.784314f );
                 setUIColors( cb, co, coh, cf, cfh, cp, cpo );                                 
             }
                 break;  
                 
             case CI_UI_THEME_LIGHTPINK:
             {
-                ColorA cb = ColorA( 0.619608, 0.117647, 0.298039, 0.294118 );
-                ColorA co = ColorA( 0.560784, 0.560784, 0.560784, 0.392157 );
-                ColorA coh = ColorA( 0.619608, 0.117647, 0.298039, 0.784314 );
-                ColorA cf = ColorA( 0.92549, 0.92549, 0.92549, 0.784314 );
-                ColorA cfh = ColorA( 1, 0.0666667, 0.407843, 1 );
-                ColorA cp = ColorA( 0.145098, 0.00784314, 0.0588235, 0.392157 );
-                ColorA cpo = ColorA( 0.560784, 0.560784, 0.560784, 0.784314 );
+                ColorA cb = ColorA( 0.619608f, 0.117647f, 0.298039f, 0.294118f );
+                ColorA co = ColorA( 0.560784f, 0.560784f, 0.560784f, 0.392157f );
+                ColorA coh = ColorA( 0.619608f, 0.117647f, 0.298039f, 0.784314f );
+                ColorA cf = ColorA( 0.92549f, 0.92549f, 0.92549f, 0.784314f );
+                ColorA cfh = ColorA( 1, 0.0666667f, 0.407843f, 1 );
+                ColorA cp = ColorA( 0.145098f, 0.00784314f, 0.0588235f, 0.392157f );
+                ColorA cpo = ColorA( 0.560784f, 0.560784f, 0.560784f, 0.784314f );
                 setUIColors( cb, co, coh, cf, cfh, cp, cpo );                                 
             }
                 break;  
                 
             case CI_UI_THEME_MINPINK2:
             {
-                ColorA cb = ColorA( 0.92549, 0.92549, 0.92549, 0.294118 );
-                ColorA co = ColorA( 0.619608, 0.117647, 0.298039, 0.392157 );
-                ColorA coh = ColorA( 0.92549, 0.92549, 0.92549, 0.784314 );
-                ColorA cf = ColorA( 1, 0.0666667, 0.407843, 0.784314 );
-                ColorA cfh = ColorA( 0.145098, 0.00784314, 0.0588235, 1 );
-                ColorA cp = ColorA( 0.560784, 0.560784, 0.560784, 0.392157 );
-                ColorA cpo = ColorA( 0.619608, 0.117647, 0.298039, 0.784314 );
+                ColorA cb = ColorA( 0.92549f, 0.92549f, 0.92549f, 0.294118f );
+                ColorA co = ColorA( 0.619608f, 0.117647f, 0.298039f, 0.392157f );
+                ColorA coh = ColorA( 0.92549f, 0.92549f, 0.92549f, 0.784314f );
+                ColorA cf = ColorA( 1, 0.0666667f, 0.407843f, 0.784314f );
+                ColorA cfh = ColorA( 0.145098f, 0.00784314f, 0.0588235f, 1 );
+                ColorA cp = ColorA( 0.560784f, 0.560784f, 0.560784f, 0.392157f );
+                ColorA cpo = ColorA( 0.619608f, 0.117647f, 0.298039f, 0.784314f );
                 setUIColors( cb, co, coh, cf, cfh, cp, cpo );                                 
             }
                 break;  
                 
             case CI_UI_THEME_MAXPINK:
             {
-                ColorA cb = ColorA( 1, 0.0784314, 0.341176, 0.294118 );
-                ColorA co = ColorA( 0.0392157, 0.0392157, 0.0392157, 0.392157 );
-                ColorA coh = ColorA( 0.890196, 0.964706, 1, 0.784314 );
-                ColorA cf = ColorA( 1, 0.0784314, 0.341176, 0.784314 );
-                ColorA cfh = ColorA( 1, 0.847059, 0.490196, 1 );
-                ColorA cp = ColorA( 0.0392157, 0.0392157, 0.0392157, 0.392157 );
-                ColorA cpo = ColorA( 0.890196, 0.964706, 1, 0.784314 );
+                ColorA cb = ColorA( 1, 0.0784314f, 0.341176f, 0.294118f );
+                ColorA co = ColorA( 0.0392157f, 0.0392157f, 0.0392157f, 0.392157f );
+                ColorA coh = ColorA( 0.890196f, 0.964706f, 1, 0.784314f );
+                ColorA cf = ColorA( 1, 0.0784314f, 0.341176f, 0.784314f );
+                ColorA cfh = ColorA( 1, 0.847059f, 0.490196f, 1 );
+                ColorA cp = ColorA( 0.0392157f, 0.0392157f, 0.0392157f, 0.392157f );
+                ColorA cpo = ColorA( 0.890196f, 0.964706f, 1, 0.784314f );
                 setUIColors( cb, co, coh, cf, cfh, cp, cpo );                                 
             }
                 break;  
                 
             case CI_UI_THEME_MINYELLOW:
             {
-                ColorA cb = ColorA( 0.898039, 0.894118, 0.854902, 0.294118 );
-                ColorA co = ColorA( 0.847059, 0.823529, 0.6, 0.392157 );
-                ColorA coh = ColorA( 0.898039, 0.894118, 0.854902, 0.784314 );
-                ColorA cf = ColorA( 0.960784, 0.878431, 0.219608, 0.784314 );
-                ColorA cfh = ColorA( 0.0901961, 0.0862745, 0.360784, 1 );
-                ColorA cp = ColorA( 0.745098, 0.74902, 0.619608, 0.392157 );
-                ColorA cpo = ColorA( 0.847059, 0.823529, 0.6, 0.784314 );
+                ColorA cb = ColorA( 0.898039f, 0.894118f, 0.854902f, 0.294118f );
+                ColorA co = ColorA( 0.847059f, 0.823529f, 0.6f, 0.392157f );
+                ColorA coh = ColorA( 0.898039f, 0.894118f, 0.854902f, 0.784314f );
+                ColorA cf = ColorA( 0.960784f, 0.878431f, 0.219608f, 0.784314f );
+                ColorA cfh = ColorA( 0.0901961f, 0.0862745f, 0.360784f, 1 );
+                ColorA cp = ColorA( 0.745098f, 0.74902f, 0.619608f, 0.392157f );
+                ColorA cpo = ColorA( 0.847059f, 0.823529f, 0.6f, 0.784314f );
                 setUIColors( cb, co, coh, cf, cfh, cp, cpo );                                 
             }
                 break;  
 
             case CI_UI_THEME_MINLIME:
             {
-                ColorA cb = ColorA( 0.960784, 0.882353, 0.886275, 0.294118 );
-                ColorA co = ColorA( 0.882353, 0.717647, 0.929412, 0.392157 );
-                ColorA coh = ColorA( 0.960784, 0.882353, 0.886275, 0.784314 );
-                ColorA cf = ColorA( 0.72549, 0.870588, 0.317647, 0.784314 );
-                ColorA cfh = ColorA( 0.819608, 0.890196, 0.537255, 1 );
-                ColorA cp = ColorA( 0.878431, 0.282353, 0.568627, 0.392157 );
-                ColorA cpo = ColorA( 0.882353, 0.717647, 0.929412, 0.784314 );
+                ColorA cb = ColorA( 0.960784f, 0.882353f, 0.886275f, 0.294118f );
+                ColorA co = ColorA( 0.882353f, 0.717647f, 0.929412f, 0.392157f );
+                ColorA coh = ColorA( 0.960784f, 0.882353f, 0.886275f, 0.784314f );
+                ColorA cf = ColorA( 0.72549f, 0.870588f, 0.317647f, 0.784314f );
+                ColorA cfh = ColorA( 0.819608f, 0.890196f, 0.537255f, 1 );
+                ColorA cp = ColorA( 0.878431f, 0.282353f, 0.568627f, 0.392157f );
+                ColorA cpo = ColorA( 0.882353f, 0.717647f, 0.929412f, 0.784314f );
                 setUIColors( cb, co, coh, cf, cfh, cp, cpo );                                 
             }
                 break;  
 
             case CI_UI_THEME_MINORANGE:
             {
-                ColorA cb = ColorA( 0.8, 0.8, 0.8, 0.294118 );
-                ColorA co = ColorA( 0.435294, 0.435294, 0.435294, 0.392157 );
-                ColorA coh = ColorA( 0.8, 0.8, 0.8, 0.784314 );
-                ColorA cf = ColorA( 1, 0.392157, 0, 0.784314 );
+                ColorA cb = ColorA( 0.8f, 0.8f, 0.8f, 0.294118f );
+                ColorA co = ColorA( 0.435294f, 0.435294f, 0.435294f, 0.392157f );
+                ColorA coh = ColorA( 0.8f, 0.8f, 0.8f, 0.784314f );
+                ColorA cf = ColorA( 1, 0.392157f, 0, 0.784314f );
                 ColorA cfh = ColorA( 1, 1, 1, 1 );
-                ColorA cp = ColorA( 0.2, 0.2, 0.2, 0.392157 );
-                ColorA cpo = ColorA( 0.435294, 0.435294, 0.435294, 0.784314 );
+                ColorA cp = ColorA( 0.2f, 0.2f, 0.2f, 0.392157f );
+                ColorA cpo = ColorA( 0.435294f, 0.435294f, 0.435294f, 0.784314f );
                 setUIColors( cb, co, coh, cf, cfh, cp, cpo );                                 
             }
                 break;  
 
             case CI_UI_THEME_GRAYDAY:
             {
-                ColorA cb = ColorA( 0.694118, 0.776471, 0.8, 0.294118 );
-                ColorA co = ColorA( 1, 1, 1, 0.392157 );
-                ColorA coh = ColorA( 0.0784314, 0.0784314, 0.0784314, 0.784314 );
-                ColorA cf = ColorA( 0.694118, 0.776471, 0.8, 0.784314 );
-                ColorA cfh = ColorA( 1, 0.937255, 0.368627, 1 );
-                ColorA cp = ColorA( 1, 1, 1, 0.392157 );
-                ColorA cpo = ColorA( 0.0784314, 0.0784314, 0.0784314, 0.784314 );
+                ColorA cb = ColorA( 0.694118f, 0.776471f, 0.8f, 0.294118f );
+                ColorA co = ColorA( 1, 1, 1, 0.392157f );
+                ColorA coh = ColorA( 0.0784314f, 0.0784314f, 0.0784314f, 0.784314f );
+                ColorA cf = ColorA( 0.694118f, 0.776471f, 0.8f, 0.784314f );
+                ColorA cfh = ColorA( 1, 0.937255f, 0.368627f, 1 );
+                ColorA cp = ColorA( 1, 1, 1, 0.392157f );
+                ColorA cpo = ColorA( 0.0784314f, 0.0784314f, 0.0784314f, 0.784314f );
                 setUIColors( cb, co, coh, cf, cfh, cp, cpo );                                 
             }
                 break;  
 
             case CI_UI_THEME_MINBLACK:
             {
-                ColorA cb = ColorA( 1, 1, 1, 0.294118 );
-                ColorA co = ColorA( 0.819608, 0.905882, 0.317647, 0.392157 );
-                ColorA coh = ColorA( 1, 1, 1, 0.784314 );
-                ColorA cf = ColorA( 0, 0, 0, 0.784314 );
-                ColorA cfh = ColorA( 0.14902, 0.678431, 0.894118, 1 );
-                ColorA cp = ColorA( 0.301961, 0.737255, 0.913725, 0.392157 );
-                ColorA cpo = ColorA( 0.819608, 0.905882, 0.317647, 0.784314 );                                
+                ColorA cb = ColorA( 1, 1, 1, 0.294118f );
+                ColorA co = ColorA( 0.819608f, 0.905882f, 0.317647f, 0.392157f );
+                ColorA coh = ColorA( 1, 1, 1, 0.784314f );
+                ColorA cf = ColorA( 0, 0, 0, 0.784314f );
+                ColorA cfh = ColorA( 0.14902f, 0.678431f, 0.894118f, 1 );
+                ColorA cp = ColorA( 0.301961f, 0.737255f, 0.913725f, 0.392157f );
+                ColorA cpo = ColorA( 0.819608f, 0.905882f, 0.317647f, 0.784314f );                                
                 setUIColors( cb, co, coh, cf, cfh, cp, cpo );                                 
             }
                 break;  
@@ -1989,49 +1989,49 @@ public:
 		switch (_target) 
 		{
 			case CI_UI_WIDGET_COLOR_BACK:
-				for(int i = 0; i < widgets.size(); i++)
+				for(unsigned int i = 0; i < widgets.size(); i++)
 				{
 					widgets[i]->setColorBack(_color); 
 				}				
 				break;
 
 			case CI_UI_WIDGET_COLOR_OUTLINE:
-				for(int i = 0; i < widgets.size(); i++)
+				for(unsigned int i = 0; i < widgets.size(); i++)
 				{
 					widgets[i]->setColorOutline(_color); 
 				}				
 				break;
 			
 			case CI_UI_WIDGET_COLOR_OUTLINE_HIGHLIGHT:
-				for(int i = 0; i < widgets.size(); i++)
+				for(unsigned int i = 0; i < widgets.size(); i++)
 				{
 					widgets[i]->setColorOutlineHighlight(_color); 
 				}				
 				break;
 			
 			case CI_UI_WIDGET_COLOR_FILL:
-				for(int i = 0; i < widgets.size(); i++)
+				for(unsigned int i = 0; i < widgets.size(); i++)
 				{
 					widgets[i]->setColorFill(_color); 
 				}				
 				break;
 			
 			case CI_UI_WIDGET_COLOR_FILL_HIGHLIGHT:
-				for(int i = 0; i < widgets.size(); i++)
+				for(unsigned int i = 0; i < widgets.size(); i++)
 				{
 					widgets[i]->setColorFillHighlight(_color); 
 				}					
 				break;
                 
 			case CI_UI_WIDGET_COLOR_PADDED:
-				for(int i = 0; i < widgets.size(); i++)
+				for(unsigned int i = 0; i < widgets.size(); i++)
 				{
 					widgets[i]->setColorPadded(_color); 
 				}					
 				break;
                 
 			case CI_UI_WIDGET_COLOR_PADDED_OUTLINE:
-				for(int i = 0; i < widgets.size(); i++)
+				for(unsigned int i = 0; i < widgets.size(); i++)
 				{
 					widgets[i]->setColorPaddedOutline(_color); 
 				}					
@@ -2063,7 +2063,7 @@ public:
 
     void setDrawWidgetPadding(bool _draw_padded_rect)
     {
-		for(int i = 0; i < widgets.size(); i++)
+		for(unsigned int i = 0; i < widgets.size(); i++)
 		{
 			widgets[i]->setDrawPadding(_draw_padded_rect); 
 		}		        
@@ -2076,7 +2076,7 @@ public:
 
     void setDrawWidgetPaddingOutline(bool _draw_padded_rect_outline)
 	{
-		for(int i = 0; i < widgets.size(); i++)
+		for(unsigned int i = 0; i < widgets.size(); i++)
 		{
 			widgets[i]->setDrawPaddingOutline(_draw_padded_rect_outline); 
 		}		
@@ -2091,7 +2091,7 @@ public:
     vector<ciUIWidget*> getWidgetsOfType(ciUIWidgetType type)
     {
         vector<ciUIWidget*> widgetToReturn; 
-        for(int i = 0; i < widgets.size(); i++)
+        for(unsigned int i = 0; i < widgets.size(); i++)
 		{
             if(widgets[i]->getKind() == type)
             {
