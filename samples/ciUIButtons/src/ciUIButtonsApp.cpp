@@ -50,8 +50,9 @@ void ciUIButtonsApp::setup()
     
     gui->addWidgetDown(new ciUISpacer(length, 2), CI_UI_ALIGN_LEFT);    
     gui->addWidgetDown(new ciUILabel("SINGLE IMAGE BUTTONS & TOGGLES", CI_UI_FONT_MEDIUM));        
-    gui->addWidgetDown(new ciUIImageButton(dim*2,dim*2, false, loadResource(PLAY_IMAGE), "PLAY"));
-    gui->addWidgetRight(new ciUIImageToggle(dim*2,dim*2, false, loadResource(PLAY_IMAGE), "PLAY"));    
+
+	//gui->addWidgetDown(new ciUIImageButton(dim*2,dim*2, false, loadResource(PLAY_IMAGE), "PLAY"));
+ //   gui->addWidgetRight(new ciUIImageToggle(dim*2,dim*2, false, loadResource(PLAY_IMAGE), "PLAY"));    
     
     gui->addWidgetDown(new ciUISpacer(length, 2), CI_UI_ALIGN_LEFT);     
     gui->addWidgetDown(new ciUILabel("MULTI-IMAGE BUTTONS & TOGGLES", CI_UI_FONT_MEDIUM));        

@@ -101,10 +101,10 @@ public:
             extension = _pathURL.substr(found);
         }
         
-        back = loadImage(loadResource(_pathURL));         
-        down = loadImage(loadResource(coreURL+"down"+extension));         
-        over = loadImage(loadResource(coreURL+"over"+extension));         
-        on = loadImage(loadResource(coreURL+"on"+extension));         
+        back = loadImage(loadAsset(_pathURL));         
+        down = loadImage(loadAsset(coreURL+"down"+extension));         
+        over = loadImage(loadAsset(coreURL+"over"+extension));         
+        on = loadImage(loadAsset(coreURL+"on"+extension));         
     }       
     
     

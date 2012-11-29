@@ -67,8 +67,9 @@ void ciUIAllWidgetsApp::setup()
     gl::enableAlphaBlending(); 
 	setFpsSampleInterval(1.0); 
 
-    mImage = loadImage( loadResource( SAMPLE_IMAGE ) ); 
-    mImageSurface = loadImage (loadResource( SAMPLE_IMAGE ) );
+    mImage = loadImage( loadAsset( "biorhythm.png" ) ); 
+    mImageSurface = loadImage( loadAsset( "biorhythm.png" ) );
+
     buffer = new float[128];
     menuWidth = getWindowWidth()/3.0; 
     menuHeight = getWindowHeight();

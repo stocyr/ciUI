@@ -131,12 +131,11 @@ public:
             extension = _pathURL.substr(found);
         }
         
-        
-        track = loadImage(loadResource(coreURL+"track"+extension));                 //back
-        progress = loadImage(loadResource(coreURL+"progress"+extension));           //fill        
-        handle = loadImage(loadResource(coreURL+"handle"+extension));               //handle        
-        handleDown = loadImage(loadResource(coreURL+"handledown"+extension));       //handleOver State                        
-        
+		track = loadImage(loadAsset(coreURL+"track"+extension));
+		progress = loadImage(loadAsset(coreURL+"progress"+extension));
+		handle = loadImage(loadAsset(coreURL+"handle"+extension));
+		handleDown = loadImage(loadAsset(coreURL+"handleDown"+extension));
+
         handleHalfWidth = handle.getWidth()*.5f;
         handleHalfHeight = handle.getHeight()*.5f;
         

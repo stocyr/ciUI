@@ -404,18 +404,18 @@ public:
         switch(_kind)
         {
             case CI_UI_FONT_LARGE:                                              
-                fontLarge = Font( loadResource(fontName), _size);                
+                fontLarge = Font( loadAsset(fontName), _size);                
                 font_large = gl::TextureFont::create(fontLarge);                
                 break; 
 
             case CI_UI_FONT_MEDIUM:
-                fontMedium = Font( loadResource(fontName), _size);                
+                fontMedium = Font( loadAsset(fontName), _size);                
                 font_medium = gl::TextureFont::create(fontMedium);                
                 
                 break; 
 
             case CI_UI_FONT_SMALL:
-                fontSmall = Font( loadResource(fontName), _size);                
+                fontSmall = Font( loadAsset(fontName), _size);                
                 font_small = gl::TextureFont::create(fontSmall);                
                 
                 break; 
@@ -2168,18 +2168,18 @@ protected:
         switch(_kind)
         {
             case CI_UI_FONT_LARGE:              
-                fontLarge = Font( loadResource(filename), fontsize);                
+                fontLarge = Font( loadAsset(filename), fontsize);                
                 font_large = gl::TextureFont::create(fontLarge);
                 break; 
                 
             case CI_UI_FONT_MEDIUM:
-                fontMedium = Font( loadResource(filename), fontsize);                
+                fontMedium = Font( loadAsset(filename), fontsize);                
                 font_medium = gl::TextureFont::create(fontMedium);
                 
                 break; 
                 
             case CI_UI_FONT_SMALL:
-                fontSmall = Font( loadResource(filename), fontsize);                
+                fontSmall = Font( loadAsset(filename), fontsize);                
                 font_small = gl::TextureFont::create(fontSmall);
 
                 break; 
