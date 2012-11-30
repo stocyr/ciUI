@@ -110,7 +110,9 @@ public:
               
         draw_back = CI_UI_LABEL_DRAW_BACK; 
         draw_fill = true; 
-		paddedRect = new ciUIRectangle(-padding, -padding, padding*2.0f, padding*2.0f);
+		//paddedRect = new ciUIRectangle(-padding, -padding, padding*2.0f, padding*2.0f);
+		paddedRect = new ciUIRectangle(-padding*2.0f, -padding*2.0f, padding*2.0f, padding*2.0f);
+		//paddedRect = new ciUIRectangle(-padding, -padding, padding, padding);
 		paddedRect->setParent(rect); 
     }
     
