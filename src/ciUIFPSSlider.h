@@ -28,7 +28,7 @@
 #include "cinder/app/App.h"
 #include "ciUISlider.h"
 
-class ciUIFPSSlider : public ciUISlider
+class ciUIFPSSlider : public ciUISlider<float>
 {
 public:        
     ciUIFPSSlider(float x, float y, float w, float h, float _min, float _max, float _value, string _name) : ciUISlider(x, y, w, h, _min, _max, _value, _name)

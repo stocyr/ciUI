@@ -31,7 +31,7 @@
 #include "ciUISlider.h"
 #include "ciUIRectangle.h"
 
-class ciUIImageSlider : public ciUISlider         
+class ciUIImageSlider : public ciUISlider<float>         
 {
 public:    
     ciUIImageSlider(float x, float y, float w, float h, float _min, float _max, float _value, string _pathURL, string _name)

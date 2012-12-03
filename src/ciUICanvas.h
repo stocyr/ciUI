@@ -132,241 +132,241 @@ public:
         hasKeyBoard = false; 
     }    
     
-    void saveSettings(string fileName)
-    {
-        try
-        {
-            XmlTree settings( "Settings", "" );
-            for(unsigned int i = 0; i < widgetsWithState.size(); i++)
-            {                
-                XmlTree widget( "Widget", "" );
-                widget.push_back( XmlTree( "Kind", numToString(widgetsWithState[i]->getKind(),0) ) );
-                widget.push_back( XmlTree( "Name", widgetsWithState[i]->getName() ) );
-                writeSpecificWidgetData(widgetsWithState[i], widget); 
-                settings.push_back( widget );
-            }
-            std::string filePath = "settings/"+fileName;
-#if defined( CINDER_COCOA )
-            filePath = ci::app::App::getResourcePath().string()+"/"+filePath;
-#endif
-            settings.write( writeFile( filePath , true) );
-        }
-        catch (Exception e)
-        {
-            cout << "CIUI: Could not save file: " << fileName << endl; 
-        }
-    }
-    
-    void writeSpecificWidgetData(ciUIWidget *widget, XmlTree &XML)
-    {
-        int kind = widget->getKind();        
-        switch (kind) {
-            case CI_UI_WIDGET_IMAGETOGGLE:    
-            case CI_UI_WIDGET_MULTIIMAGETOGGLE: 
-            case CI_UI_WIDGET_LABELTOGGLE:                
-            case CI_UI_WIDGET_TOGGLE:
-            {
-                ciUIToggle *toggle = (ciUIToggle *) widget; 
-                XML.push_back( XmlTree( "Value", numToString( toggle->getValue() ? 1 : 0) ) );                
-            }
-                break;
-                
-            case CI_UI_WIDGET_MULTIIMAGESLIDER_H:
-            case CI_UI_WIDGET_MULTIIMAGESLIDER_V:                                 
-            case CI_UI_WIDGET_IMAGESLIDER_H:
-            case CI_UI_WIDGET_IMAGESLIDER_V:
-            case CI_UI_WIDGET_BILABELSLIDER:
-            case CI_UI_WIDGET_CIRCLESLIDER:
-            case CI_UI_WIDGET_MINIMALSLIDER:                
-            case CI_UI_WIDGET_SLIDER_H:
-            case CI_UI_WIDGET_SLIDER_V:
-            {
-                ciUISlider *slider = (ciUISlider *) widget; 
-                XML.push_back( XmlTree( "Value", numToString( slider->getScaledValue() ) )  );
-            }
-                break;
-
-            case CI_UI_WIDGET_RSLIDER_H:
-            case CI_UI_WIDGET_RSLIDER_V:
-            {
-                ciUIRangeSlider *rslider = (ciUIRangeSlider *) widget; 
-                XML.push_back( XmlTree( "HighValue", numToString( rslider->getScaledValueHigh() ) ) ); 
-                XML.push_back( XmlTree( "LowValue", numToString( rslider->getScaledValueLow() ) ) );              
-            }
-                break;
-
-            case CI_UI_WIDGET_NUMBERDIALER:
-            {
-                ciUINumberDialer *numdialer = (ciUINumberDialer *) widget; 
-                XML.push_back( XmlTree( "Value", numToString( numdialer->getValue() ) ) );
-            }
-                break;
-
-            case CI_UI_WIDGET_2DPAD:
-            {
-                ciUI2DPad *pad = (ciUI2DPad *) widget; 
-                XML.push_back( XmlTree( "XValue", numToString( pad->getScaledValue().x ) ) ); 
-                XML.push_back( XmlTree( "YValue", numToString( pad->getScaledValue().y ) ) );            
-            }
-                break;
-
-            case CI_UI_WIDGET_TEXTINPUT:
-            {
-                ciUITextInput *textInput = (ciUITextInput *) widget; 
-                XML.push_back( XmlTree( "Value", textInput->getTextString() ) );                 
-            }
-                break;
-                                
-            case CI_UI_WIDGET_ROTARYSLIDER:
-            {
-                ciUIRotarySlider *rotslider = (ciUIRotarySlider *) widget;
-                XML.push_back( XmlTree( "Value", numToString( rotslider->getScaledValue() ) ) ); 
-            }
-                break;
-                
-            case CI_UI_WIDGET_IMAGESAMPLER:
-            {
-                ciUIImageSampler *imageSampler = (ciUIImageSampler *) widget;                 
-                XML.push_back( XmlTree( "XValue", numToString( imageSampler->getValue().x ) ) ); 
-                XML.push_back( XmlTree( "YValue", numToString( imageSampler->getValue().y ) ) );                
-                XML.push_back( XmlTree( "RColor", numToString( imageSampler->getColor().r ) ) );                               
-                XML.push_back( XmlTree( "GColor", numToString( imageSampler->getColor().g ) ) );                               
-                XML.push_back( XmlTree( "BColor", numToString( imageSampler->getColor().b ) ) );                                               
-                XML.push_back( XmlTree( "AColor", numToString( imageSampler->getColor().a ) ) );                               
-            }
-                break;
-
-            default:
-                break;
-        }
-    }
-
-    void loadSettings(string fileName)
-    {
-        try
-        {
-            std::string filePath = "settings/"+fileName;
-#if defined( CINDER_COCOA )
-            filePath = ci::app::App::getResourcePath().string()+"/"+filePath;
-#endif
-            XmlTree XML( loadFile(filePath) );
-
-            XmlTree settings = XML.getChild( "Settings" );        
-            for( XmlTree::Iter item = settings.begin(); item != settings.end(); ++item )
-            {        
-                string wName = item->getChild("Name").getValue(); 
-                ciUIWidget *widget = getWidget(wName); 
-                if(widget != NULL)
-                {
-                    loadSpecificWidgetData(widget, *item); 
-                    triggerEvent(widget); 
-                }                     
-            }
-        }
-        catch (Exception e)
-        {
-            cout << "CIUI: Could not load file: " << fileName << endl; 
-        }
-        hasKeyBoard = false;                
-    }
-
-
-    void loadSpecificWidgetData(ciUIWidget *widget, XmlTree &XML)
-    {
-        int kind = XML.getChild("Kind").getValue<int>();       
-        switch (kind) 
-        {
-            case CI_UI_WIDGET_IMAGETOGGLE:    
-            case CI_UI_WIDGET_MULTIIMAGETOGGLE: 
-            case CI_UI_WIDGET_LABELTOGGLE:                
-            case CI_UI_WIDGET_TOGGLE:
-            {
-                ciUIToggle *toggle = (ciUIToggle *) widget; 
-                int value = XML.getChild("Value").getValue<int>();
-                toggle->setValue((value ? 1 : 0)); 
-            }
-                break;
-
-            case CI_UI_WIDGET_MULTIIMAGESLIDER_H:
-            case CI_UI_WIDGET_MULTIIMAGESLIDER_V:                 
-            case CI_UI_WIDGET_IMAGESLIDER_H:
-            case CI_UI_WIDGET_IMAGESLIDER_V:                
-            case CI_UI_WIDGET_BILABELSLIDER:    
-            case CI_UI_WIDGET_CIRCLESLIDER:               
-            case CI_UI_WIDGET_MINIMALSLIDER:
-            case CI_UI_WIDGET_SLIDER_H:
-            case CI_UI_WIDGET_SLIDER_V:
-            {
-                ciUISlider *slider = (ciUISlider *) widget; 
-                float value = XML.getChild("Value").getValue<float>();
-                slider->setValue(value); 
-            }
-                break;
-                
-            case CI_UI_WIDGET_RSLIDER_H:
-            case CI_UI_WIDGET_RSLIDER_V:
-            {
-                ciUIRangeSlider *rslider = (ciUIRangeSlider *) widget; 
-                float valueHigh = XML.getChild("HighValue").getValue<float>();
-                float valueLow = XML.getChild("LowValue").getValue<float>();
-                rslider->setValueHigh(valueHigh);
-                rslider->setValueLow(valueLow);
-            }
-                break;
-                
-            case CI_UI_WIDGET_NUMBERDIALER:
-            {
-                ciUINumberDialer *numdialer = (ciUINumberDialer *) widget; 
-                float value = XML.getChild("Value").getValue<float>();
-                numdialer->setValue(value);                 
-            }
-                break;
-                
-            case CI_UI_WIDGET_2DPAD:
-            {
-                ciUI2DPad *pad = (ciUI2DPad *) widget; 
-                float valueX = XML.getChild("XValue").getValue<float>();
-                float valueY = XML.getChild("YValue").getValue<float>();
-                pad->setValue(Vec2f(valueX, valueY)); 
-            }
-                break;
-                
-            case CI_UI_WIDGET_TEXTINPUT:
-            {
-                ciUITextInput *textInput = (ciUITextInput *) widget; 
-                string value = XML.getChild("Value").getValue();
-                textInput->setTextString(value); 
-            }
-                break;                
-                
-            case CI_UI_WIDGET_ROTARYSLIDER:
-            {
-                ciUIRotarySlider *rotslider = (ciUIRotarySlider *) widget;
-                float value = XML.getChild("Value").getValue<float>();
-                rotslider->setValue(value); 
-            }
-                break;
-                
-            case CI_UI_WIDGET_IMAGESAMPLER:
-            {
-                ciUIImageSampler *imageSampler = (ciUIImageSampler *) widget; 
-                float valueX = XML.getChild("XValue").getValue<float>();
-                float valueY = XML.getChild("YValue").getValue<float>();
-                
-                float r = XML.getChild("RColor").getValue<float>();
-                float g = XML.getChild("GColor").getValue<float>();
-                float b = XML.getChild("BColor").getValue<float>();
-                float a = XML.getChild("AColor").getValue<float>();
-                
-                imageSampler->setValue(Vec2f(valueX, valueY));
-                imageSampler->setColor(ColorA(r,g,b,a));
-            }
-                break;
-                
-            default:
-                break;
-        }        
-    }
+//    void saveSettings(string fileName)
+//    {
+//        try
+//        {
+//            XmlTree settings( "Settings", "" );
+//            for(unsigned int i = 0; i < widgetsWithState.size(); i++)
+//            {                
+//                XmlTree widget( "Widget", "" );
+//                widget.push_back( XmlTree( "Kind", numToString(widgetsWithState[i]->getKind(),0) ) );
+//                widget.push_back( XmlTree( "Name", widgetsWithState[i]->getName() ) );
+//                writeSpecificWidgetData(widgetsWithState[i], widget); 
+//                settings.push_back( widget );
+//            }
+//            std::string filePath = "settings/"+fileName;
+//#if defined( CINDER_COCOA )
+//            filePath = ci::app::App::getResourcePath().string()+"/"+filePath;
+//#endif
+//            settings.write( writeFile( filePath , true) );
+//        }
+//        catch (Exception e)
+//        {
+//            cout << "CIUI: Could not save file: " << fileName << endl; 
+//        }
+//    }
+//    
+//    void writeSpecificWidgetData(ciUIWidget *widget, XmlTree &XML)
+//    {
+//        int kind = widget->getKind();        
+//        switch (kind) {
+//            case CI_UI_WIDGET_IMAGETOGGLE:    
+//            case CI_UI_WIDGET_MULTIIMAGETOGGLE: 
+//            case CI_UI_WIDGET_LABELTOGGLE:                
+//            case CI_UI_WIDGET_TOGGLE:
+//            {
+//                ciUIToggle *toggle = (ciUIToggle *) widget; 
+//                XML.push_back( XmlTree( "Value", numToString( toggle->getValue() ? 1 : 0) ) );                
+//            }
+//                break;
+//                
+//            case CI_UI_WIDGET_MULTIIMAGESLIDER_H:
+//            case CI_UI_WIDGET_MULTIIMAGESLIDER_V:                                 
+//            case CI_UI_WIDGET_IMAGESLIDER_H:
+//            case CI_UI_WIDGET_IMAGESLIDER_V:
+//            case CI_UI_WIDGET_BILABELSLIDER:
+//            case CI_UI_WIDGET_CIRCLESLIDER:
+//            case CI_UI_WIDGET_MINIMALSLIDER:                
+//            case CI_UI_WIDGET_SLIDER_H:
+//            case CI_UI_WIDGET_SLIDER_V:
+//            {
+//                ciUISlider *slider = (ciUISlider *) widget; 
+//                XML.push_back( XmlTree( "Value", numToString( slider->getScaledValue() ) )  );
+//            }
+//                break;
+//
+//            case CI_UI_WIDGET_RSLIDER_H:
+//            case CI_UI_WIDGET_RSLIDER_V:
+//            {
+//                ciUIRangeSlider *rslider = (ciUIRangeSlider *) widget; 
+//                XML.push_back( XmlTree( "HighValue", numToString( rslider->getScaledValueHigh() ) ) ); 
+//                XML.push_back( XmlTree( "LowValue", numToString( rslider->getScaledValueLow() ) ) );              
+//            }
+//                break;
+//
+//            case CI_UI_WIDGET_NUMBERDIALER:
+//            {
+//                ciUINumberDialer *numdialer = (ciUINumberDialer *) widget; 
+//                XML.push_back( XmlTree( "Value", numToString( numdialer->getValue() ) ) );
+//            }
+//                break;
+//
+//            case CI_UI_WIDGET_2DPAD:
+//            {
+//                ciUI2DPad *pad = (ciUI2DPad *) widget; 
+//                XML.push_back( XmlTree( "XValue", numToString( pad->getScaledValue().x ) ) ); 
+//                XML.push_back( XmlTree( "YValue", numToString( pad->getScaledValue().y ) ) );            
+//            }
+//                break;
+//
+//            case CI_UI_WIDGET_TEXTINPUT:
+//            {
+//                ciUITextInput *textInput = (ciUITextInput *) widget; 
+//                XML.push_back( XmlTree( "Value", textInput->getTextString() ) );                 
+//            }
+//                break;
+//                                
+//            case CI_UI_WIDGET_ROTARYSLIDER:
+//            {
+//                ciUIRotarySlider *rotslider = (ciUIRotarySlider *) widget;
+//                XML.push_back( XmlTree( "Value", numToString( rotslider->getScaledValue() ) ) ); 
+//            }
+//                break;
+//                
+//            case CI_UI_WIDGET_IMAGESAMPLER:
+//            {
+//                ciUIImageSampler *imageSampler = (ciUIImageSampler *) widget;                 
+//                XML.push_back( XmlTree( "XValue", numToString( imageSampler->getValue().x ) ) ); 
+//                XML.push_back( XmlTree( "YValue", numToString( imageSampler->getValue().y ) ) );                
+//                XML.push_back( XmlTree( "RColor", numToString( imageSampler->getColor().r ) ) );                               
+//                XML.push_back( XmlTree( "GColor", numToString( imageSampler->getColor().g ) ) );                               
+//                XML.push_back( XmlTree( "BColor", numToString( imageSampler->getColor().b ) ) );                                               
+//                XML.push_back( XmlTree( "AColor", numToString( imageSampler->getColor().a ) ) );                               
+//            }
+//                break;
+//
+//            default:
+//                break;
+//        }
+//    }
+//
+//    void loadSettings(string fileName)
+//    {
+//        try
+//        {
+//            std::string filePath = "settings/"+fileName;
+//#if defined( CINDER_COCOA )
+//            filePath = ci::app::App::getResourcePath().string()+"/"+filePath;
+//#endif
+//            XmlTree XML( loadFile(filePath) );
+//
+//            XmlTree settings = XML.getChild( "Settings" );        
+//            for( XmlTree::Iter item = settings.begin(); item != settings.end(); ++item )
+//            {        
+//                string wName = item->getChild("Name").getValue(); 
+//                ciUIWidget *widget = getWidget(wName); 
+//                if(widget != NULL)
+//                {
+//                    loadSpecificWidgetData(widget, *item); 
+//                    triggerEvent(widget); 
+//                }                     
+//            }
+//        }
+//        catch (Exception e)
+//        {
+//            cout << "CIUI: Could not load file: " << fileName << endl; 
+//        }
+//        hasKeyBoard = false;                
+//    }
+//
+//
+//    void loadSpecificWidgetData(ciUIWidget *widget, XmlTree &XML)
+//    {
+//        int kind = XML.getChild("Kind").getValue<int>();       
+//        switch (kind) 
+//        {
+//            case CI_UI_WIDGET_IMAGETOGGLE:    
+//            case CI_UI_WIDGET_MULTIIMAGETOGGLE: 
+//            case CI_UI_WIDGET_LABELTOGGLE:                
+//            case CI_UI_WIDGET_TOGGLE:
+//            {
+//                ciUIToggle *toggle = (ciUIToggle *) widget; 
+//                int value = XML.getChild("Value").getValue<int>();
+//                toggle->setValue((value ? 1 : 0)); 
+//            }
+//                break;
+//
+//            case CI_UI_WIDGET_MULTIIMAGESLIDER_H:
+//            case CI_UI_WIDGET_MULTIIMAGESLIDER_V:                 
+//            case CI_UI_WIDGET_IMAGESLIDER_H:
+//            case CI_UI_WIDGET_IMAGESLIDER_V:                
+//            case CI_UI_WIDGET_BILABELSLIDER:    
+//            case CI_UI_WIDGET_CIRCLESLIDER:               
+//            case CI_UI_WIDGET_MINIMALSLIDER:
+//            case CI_UI_WIDGET_SLIDER_H:
+//            case CI_UI_WIDGET_SLIDER_V:
+//            {
+//                ciUISlider *slider = (ciUISlider *) widget; 
+//                float value = XML.getChild("Value").getValue<float>();
+//                slider->setValue(value); 
+//            }
+//                break;
+//                
+//            case CI_UI_WIDGET_RSLIDER_H:
+//            case CI_UI_WIDGET_RSLIDER_V:
+//            {
+//                ciUIRangeSlider *rslider = (ciUIRangeSlider *) widget; 
+//                float valueHigh = XML.getChild("HighValue").getValue<float>();
+//                float valueLow = XML.getChild("LowValue").getValue<float>();
+//                rslider->setValueHigh(valueHigh);
+//                rslider->setValueLow(valueLow);
+//            }
+//                break;
+//                
+//            case CI_UI_WIDGET_NUMBERDIALER:
+//            {
+//                ciUINumberDialer *numdialer = (ciUINumberDialer *) widget; 
+//                float value = XML.getChild("Value").getValue<float>();
+//                numdialer->setValue(value);                 
+//            }
+//                break;
+//                
+//            case CI_UI_WIDGET_2DPAD:
+//            {
+//                ciUI2DPad *pad = (ciUI2DPad *) widget; 
+//                float valueX = XML.getChild("XValue").getValue<float>();
+//                float valueY = XML.getChild("YValue").getValue<float>();
+//                pad->setValue(Vec2f(valueX, valueY)); 
+//            }
+//                break;
+//                
+//            case CI_UI_WIDGET_TEXTINPUT:
+//            {
+//                ciUITextInput *textInput = (ciUITextInput *) widget; 
+//                string value = XML.getChild("Value").getValue();
+//                textInput->setTextString(value); 
+//            }
+//                break;                
+//                
+//            case CI_UI_WIDGET_ROTARYSLIDER:
+//            {
+//                ciUIRotarySlider *rotslider = (ciUIRotarySlider *) widget;
+//                float value = XML.getChild("Value").getValue<float>();
+//                rotslider->setValue(value); 
+//            }
+//                break;
+//                
+//            case CI_UI_WIDGET_IMAGESAMPLER:
+//            {
+//                ciUIImageSampler *imageSampler = (ciUIImageSampler *) widget; 
+//                float valueX = XML.getChild("XValue").getValue<float>();
+//                float valueY = XML.getChild("YValue").getValue<float>();
+//                
+//                float r = XML.getChild("RColor").getValue<float>();
+//                float g = XML.getChild("GColor").getValue<float>();
+//                float b = XML.getChild("BColor").getValue<float>();
+//                float a = XML.getChild("AColor").getValue<float>();
+//                
+//                imageSampler->setValue(Vec2f(valueX, valueY));
+//                imageSampler->setColor(ColorA(r,g,b,a));
+//            }
+//                break;
+//                
+//            default:
+//                break;
+//        }        
+//    }
 
     
     gl::TextureFontRef getFontLarge()
@@ -924,7 +924,7 @@ public:
 		}
 		else if(widget->getKind() == CI_UI_WIDGET_SLIDER_H || widget->getKind() == CI_UI_WIDGET_SLIDER_V || widget->getKind() == CI_UI_WIDGET_BILABELSLIDER || widget->getKind() == CI_UI_WIDGET_MINIMALSLIDER || widget->getKind() == CI_UI_WIDGET_CIRCLESLIDER || widget->getKind() == CI_UI_WIDGET_IMAGESLIDER_H || widget->getKind() == CI_UI_WIDGET_IMAGESLIDER_V || widget->getKind() == CI_UI_WIDGET_MULTIIMAGESLIDER_H || widget->getKind() == CI_UI_WIDGET_MULTIIMAGESLIDER_V)           
 		{
-			ciUISlider *slider = (ciUISlider *) widget;
+			ciUISliderBase *slider = (ciUISliderBase *) widget;
 			ciUILabel *label = (ciUILabel *) slider->getLabel();
 			setLabelFont(label); 			
 			pushbackWidget(label); 				

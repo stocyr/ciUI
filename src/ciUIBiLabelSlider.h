@@ -27,7 +27,7 @@
 
 #include "ciUISlider.h"
 
-class ciUIBiLabelSlider : public ciUISlider
+class ciUIBiLabelSlider : public ciUISlider<float>
 {
 public:
     ciUIBiLabelSlider(float x, float y, float w, float h, float _min, float _max, float _value, string _name, string _leftLabel, string _rightLabel, int _size = CI_UI_FONT_SMALL)

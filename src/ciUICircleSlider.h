@@ -27,7 +27,7 @@
 
 #include "ciUISlider.h"
 
-class ciUICircleSlider : public ciUISlider
+class ciUICircleSlider : public ciUISlider<float>
 {
 public:    
     ciUICircleSlider(float x, float y, float w, float _min, float _max, float _value, string _name, int _size = CI_UI_FONT_SMALL)

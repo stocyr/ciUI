@@ -30,111 +30,43 @@
 #include "cinder/app/KeyEvent.h"
 #include "ciUIWidgetWithLabel.h"
 
-class ciUISlider : public ciUIWidgetWithLabel
+class ciUISliderBase : public ciUIWidgetWithLabel
 {
 public:
-    ciUISlider() {}
+    ciUISliderBase() {}
 
-    ciUISlider(float x, float y, float w, float h, float _min, float _max, float _value, string _name)
+	/*    ciUISliderBase(float x, float y, float w, float h, float _min, float _max, float _value, string _name)
+	{
+	useReference = false;         
+	rect = new ciUIRectangle(x,y,w,h); 
+	init(w, h, _min, _max, &_value, _name); 		
+	}
+
+	ciUISliderBase(float w, float h, float _min, float _max, float _value, string _name)
+	{
+	useReference = false;         
+	rect = new ciUIRectangle(0,0,w,h); 
+	init(w, h, _min, _max, &_value, _name); 
+	}    
+
+	ciUISliderBase(float x, float y, float w, float h, float _min, float _max, float *_value, string _name)
+	{
+	useReference = true; 
+	rect = new ciUIRectangle(x,y,w,h); 
+	init(w, h, _min, _max, _value, _name); 		
+	}
+
+	ciUISliderBase(float w, float h, float _min, float _max, float *_value, string _name)
+	{
+	useReference = true; 
+	rect = new ciUIRectangle(0,0,w,h); 
+	init(w, h, _min, _max, _value, _name); 
+	}     */   
+        
+    ~ciUISliderBase()
     {
-        useReference = false;         
-        rect = new ciUIRectangle(x,y,w,h); 
-        init(w, h, _min, _max, &_value, _name); 		
     }
     
-    ciUISlider(float w, float h, float _min, float _max, float _value, string _name)
-    {
-        useReference = false;         
-        rect = new ciUIRectangle(0,0,w,h); 
-        init(w, h, _min, _max, &_value, _name); 
-    }    
-    
-    ciUISlider(float x, float y, float w, float h, float _min, float _max, float *_value, string _name)
-    {
-        useReference = true; 
-        rect = new ciUIRectangle(x,y,w,h); 
-        init(w, h, _min, _max, _value, _name); 		
-    }
-    
-    ciUISlider(float w, float h, float _min, float _max, float *_value, string _name)
-    {
-        useReference = true; 
-        rect = new ciUIRectangle(0,0,w,h); 
-        init(w, h, _min, _max, _value, _name); 
-    }        
-        
-    ~ciUISlider()
-    {
-        if(!useReference)
-        {
-            delete valueRef; 
-        }
-    }
-    
-    virtual void init(float w, float h, float _min, float _max, float *_value, string _name)
-    {
-        name = _name; 				
-		if(w > h)
-		{
-			kind = CI_UI_WIDGET_SLIDER_H;  			
-		}
-		else 
-		{
-			kind = CI_UI_WIDGET_SLIDER_V;  			
-		}
-        
-		paddedRect = new ciUIRectangle(-padding, -padding, w+padding*2.0f, h+padding);
-		paddedRect->setParent(rect);     
-        
-        draw_fill = true; 
-        
-        value = *_value;                                               //the widget's value
-        if(useReference)
-        {
-            valueRef = _value; 
-        }
-        else
-        {
-            valueRef = new float(); 
-            *valueRef = value; 
-        }
-        
-		max = _max; 
-		min = _min; 
-        labelPrecision = 2;
-
-		if(value > max)
-		{
-			value = max; 
-		}
-		if(value < min)
-		{
-			value = min; 
-		}
-		
-		value = cinder::lmap<float>(value, min, max, 0.0, 1.0); 
-        
-		if(kind == CI_UI_WIDGET_SLIDER_H)
-		{
-			label = new ciUILabel(0,h+padding,(name+" LABEL"), (name + ": "), CI_UI_FONT_SMALL); 
-		}
-		else 
-		{
-			label = new ciUILabel(0,h+padding,(name+" LABEL"), name, CI_UI_FONT_SMALL); 	
-		}
-        
-		label->setParent(label); 
-		label->setRectParent(rect); 
-        label->setEmbedded(true);
-        increment = 0.1f;         
-    }
-
-    virtual void update()
-    {
-        if(useReference)
-            value = cinder::lmap<float>(*valueRef, min, max, 0.0, 1.0);
-    }
-
     virtual void setDrawPadding(bool _draw_padded_rect)
 	{
 		draw_padded_rect = _draw_padded_rect; 
@@ -190,22 +122,7 @@ public:
         }
     }
     
-    virtual void drawFillHighlight() 
-    {
-        if(draw_fill_highlight)
-        {
-            cinder::gl::color(color_fill_highlight);              
-			if(kind == CI_UI_WIDGET_SLIDER_H)
-			{			   
-                cinder::gl::drawSolidRect(Rectf(rect->getX(), rect->getY(), rect->getX()+rect->getWidth()*value, rect->getY()+rect->getHeight()));
-			}
-			else 
-			{
-				cinder::gl::drawSolidRect(Rectf(rect->getX(), rect->getY()+rect->getHeight()*(1.0f-value), rect->getX()+rect->getWidth(), rect->getY()+rect->getHeight())); 
-				label->drawString(rect->getX()+rect->getWidth()+padding, rect->getY()+rect->getHeight()*(1.0f-value)-label->getRect()->getHalfHeight(), numToString(getScaledValue(),labelPrecision)); 
-			}
-        }        
-    }
+    virtual void drawFillHighlight() = 0;
         
     void mouseMove(int x, int y ) 
     {        
@@ -271,38 +188,6 @@ public:
         hit = false; 
     }
 	
-    void keyDown( KeyEvent &event )
-    {		
-		if(state == CI_UI_STATE_OVER)
-		{
-			switch (event.getCode()) 
-			{
-				case ci::app::KeyEvent::KEY_RIGHT:
-					setValue(getScaledValue()+increment); 
-					triggerEvent(this); 
-					break;
-                    
-				case ci::app::KeyEvent::KEY_UP:
-					setValue(getScaledValue()+increment); 
-					triggerEvent(this); 
-					break;
-					
-				case ci::app::KeyEvent::KEY_LEFT:
-					setValue(getScaledValue()-increment); 					
-					triggerEvent(this); 
-					break;
-                    
-				case ci::app::KeyEvent::KEY_DOWN:
-					setValue(getScaledValue()-increment); 					
-					triggerEvent(this); 
-					break;					
-                    
-				default:
-					break;
-			}
-		}
-    }
-    
     void keyUp( KeyEvent &event )
     {
 		
@@ -346,19 +231,10 @@ public:
 		updateLabel(); 
 	}
 
-    void updateValueRef()
-    {
-        (*valueRef) = getScaledValue();  
-    }
-    
-	virtual void updateLabel()
-	{
-		if(kind == CI_UI_WIDGET_SLIDER_H)
-		{
-            label->setLabel(name + ": " + numToString(*valueRef, labelPrecision));
-		}		
-	}
-	
+	virtual void updateValueRef() = 0;
+	virtual void updateLabel() = 0;
+	//virtual float getScaledValue() = 0;
+
     virtual void stateChange()
     {                
         switch (state) {
@@ -396,20 +272,7 @@ public:
         }        
     }
 	
-	void setValue(float _value)
-	{
-		value = ci::lmap<float>(_value, min, max, 0.0, 1.0);
-        if(value > 1.0f)
-        {
-            value = 1.0f; 
-        }
-        else if(value < 0.0f) 
-        {
-            value = 0.0f; 
-        }
-        updateValueRef();        
-		updateLabel(); 		
-	}
+	virtual void setValue(float _value) = 0;
 		
 	float getValue()
 	{
@@ -421,11 +284,6 @@ public:
 		return value; 
 	}
 	
-	float getScaledValue()
-	{
-		return ci::lmap<float>(value, 0.0, 1.0, min, max);
-	}
-    
 	ciUILabel *getLabel()
 	{
 		return label; 
@@ -462,42 +320,6 @@ public:
         updateLabel();
     }
     
-    void setMax(float _max)
-    {
-        setMaxAndMin(_max, min); 
-    }
-
-    float getMax()
-    {
-        return max; 
-    }
-    
-    void setMin(float _min)
-    {
-        setMaxAndMin(max, _min); 
-    }
-    
-    float getMin()
-    {
-        return min; 
-    }
-    
-    Vec2f getMaxAndMind()
-    {
-        return Vec2f(max, min); 
-    }
-    
-    void setMaxAndMin(float _max, float _min)
-    {
-        max = _max; 
-        min = _min; 
-		
-		value = ci::lmap<float>(value, 0, 1.0, min, max);
-		value = ci::lmap<float>(value, min, max, 0.0, 1.0);
-        updateValueRef();        
-        updateLabel(); 
-    }
-
     bool isDraggable()
     {
         return true; 
@@ -505,10 +327,237 @@ public:
     
 protected:    //inherited: ciUIRectangle *rect; ciUIWidget *parent; 
 	float value, increment; 
-    float *valueRef; 
     bool useReference; 
-	float max, min;  
     int labelPrecision;
 }; 
+
+template <class T>
+class ciUISlider : public ciUISliderBase
+{
+public:
+	ciUISlider() {}
+
+	ciUISlider(float x, float y, float w, float h, T _min, T _max, T _value, string _name)
+	{
+		useReference = false;         
+		rect = new ciUIRectangle(x,y,w,h); 
+		init(w, h, _min, _max, &_value, _name); 		
+	}
+
+	ciUISlider(float w, float h, T _min, T _max, T _value, string _name)
+	{
+		useReference = false;         
+		rect = new ciUIRectangle(0,0,w,h); 
+		init(w, h, _min, _max, &_value, _name); 
+	}    
+
+	ciUISlider(float x, float y, float w, float h, T _min, T _max, T *_value, string _name)
+	{
+		useReference = true; 
+		rect = new ciUIRectangle(x,y,w,h); 
+		init(w, h, _min, _max, _value, _name); 		
+	}
+
+	ciUISlider(float w, float h, T _min, T _max, T *_value, string _name)
+	{
+		useReference = true; 
+		rect = new ciUIRectangle(0,0,w,h); 
+		init(w, h, _min, _max, _value, _name); 
+	}
+
+	~ciUISlider()
+	{
+		if(!useReference)
+		{
+			delete valueRef; 
+		}
+	}
+
+	virtual void init(float w, float h, T _min, T _max, T *_value, string _name)
+	{
+		name = _name; 				
+		if(w > h)
+		{
+			kind = CI_UI_WIDGET_SLIDER_H;  			
+		}
+		else 
+		{
+			kind = CI_UI_WIDGET_SLIDER_V;  			
+		}
+
+		paddedRect = new ciUIRectangle(-padding, -padding, w+padding*2.0f, h+padding);
+		paddedRect->setParent(rect);     
+
+		draw_fill = true; 
+
+		value = *_value;                                               //the widget's value
+		if(useReference)
+		{
+			valueRef = _value; 
+		}
+		else
+		{
+			valueRef = new T(); 
+			*valueRef = value; 
+		}
+
+		max = _max; 
+		min = _min; 
+		labelPrecision = 2;
+
+		if(value > max)
+		{
+			value = max; 
+		}
+		if(value < min)
+		{
+			value = min; 
+		}
+
+		value = cinder::lmap<float>(value, min, max, 0.0, 1.0); 
+
+		if(kind == CI_UI_WIDGET_SLIDER_H)
+		{
+			label = new ciUILabel(0,h+padding,(name+" LABEL"), (name + ": "), CI_UI_FONT_SMALL); 
+		}
+		else 
+		{
+			label = new ciUILabel(0,h+padding,(name+" LABEL"), name, CI_UI_FONT_SMALL); 	
+		}
+
+		label->setParent(label); 
+		label->setRectParent(rect); 
+		label->setEmbedded(true);
+		increment = 0.1f;         
+	}
+
+	virtual void drawFillHighlight()
+	{
+		if(draw_fill_highlight)
+		{
+			cinder::gl::color(color_fill_highlight);              
+			if(kind == CI_UI_WIDGET_SLIDER_H)
+			{			   
+				cinder::gl::drawSolidRect(Rectf(rect->getX(), rect->getY(), rect->getX()+rect->getWidth()*value, rect->getY()+rect->getHeight()));
+			}
+			else 
+			{
+				cinder::gl::drawSolidRect(Rectf(rect->getX(), rect->getY()+rect->getHeight()*(1.0f-value), rect->getX()+rect->getWidth(), rect->getY()+rect->getHeight())); 
+				label->drawString(rect->getX()+rect->getWidth()+padding, rect->getY()+rect->getHeight()*(1.0f-value)-label->getRect()->getHalfHeight(), numToString(getScaledValue(),labelPrecision)); 
+			}
+		}        
+	}
+	
+	virtual void update()
+	{
+		if(useReference)
+			value = cinder::lmap<float>(*valueRef, min, max, 0.0, 1.0);
+	}
+
+	void keyDown( KeyEvent &event )
+	{		
+		if(state == CI_UI_STATE_OVER)
+		{
+			switch (event.getCode()) 
+			{
+			case ci::app::KeyEvent::KEY_RIGHT:
+				setValue(getScaledValue()+increment); 
+				triggerEvent(this); 
+				break;
+
+			case ci::app::KeyEvent::KEY_UP:
+				setValue(getScaledValue()+increment); 
+				triggerEvent(this); 
+				break;
+
+			case ci::app::KeyEvent::KEY_LEFT:
+				setValue(getScaledValue()-increment); 					
+				triggerEvent(this); 
+				break;
+
+			case ci::app::KeyEvent::KEY_DOWN:
+				setValue(getScaledValue()-increment); 					
+				triggerEvent(this); 
+				break;					
+
+			default:
+				break;
+			}
+		}
+	}
+
+	void updateValueRef()
+	{
+		(*valueRef) = getScaledValue();  
+	}
+
+	virtual T getScaledValue()
+	{
+		return (T)ci::lmap<float>(value, 0.0, 1.0, min, max);
+	}
+
+	virtual void updateLabel()
+	{
+		if(kind == CI_UI_WIDGET_SLIDER_H)
+		{
+			label->setLabel(name + ": " + numToString(*valueRef, labelPrecision));
+		}		
+	}
+
+	virtual void setValue(float _value)
+	{
+		value = ci::lmap<float>(_value, min, max, 0.0, 1.0);
+		if(value > 1.0f)
+		{
+			value = 1.0f; 
+		}
+		else if(value < 0.0f) 
+		{
+			value = 0.0f; 
+		}
+		updateValueRef();        
+		updateLabel(); 		
+	}
+
+	void setMax(float _max)
+	{
+		setMaxAndMin(_max, min); 
+	}
+
+	float getMax()
+	{
+		return max; 
+	}
+
+	void setMin(float _min)
+	{
+		setMaxAndMin(max, _min); 
+	}
+
+	float getMin()
+	{
+		return min; 
+	}
+
+	Vec2f getMaxAndMind()
+	{
+		return Vec2f(max, min); 
+	}
+
+	void setMaxAndMin(T _max, T _min)
+	{
+		max = _max; 
+		min = _min; 
+
+		value = ci::lmap<float>(value, 0, 1.0, min, max);
+		value = ci::lmap<float>(value, min, max, 0.0, 1.0);
+		updateValueRef();        
+		updateLabel(); 
+	}
+
+protected:
+	T *valueRef; 
+	T max, min;  
+};
 
 #endif
