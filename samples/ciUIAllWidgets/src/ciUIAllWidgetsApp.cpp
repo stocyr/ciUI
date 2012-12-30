@@ -68,7 +68,7 @@ void ciUIAllWidgetsApp::setup()
 	setFpsSampleInterval(1.0); 
 
     mImage = loadImage( loadAsset( "biorhythm.png" ) ); 
-    mImageSurface = loadImage( loadAsset( "biorhythm.png" ) );
+    mImageSurface = loadImage( loadAsset( "colorpicker1.png" ) );
 
     buffer = new float[128];
     menuWidth = getWindowWidth()/3.0; 
