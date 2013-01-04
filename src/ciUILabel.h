@@ -200,7 +200,11 @@ public:
             {
                 std::string::iterator it;
                 it=label.begin();
-                label.erase (it);                    
+                label.erase (it);
+
+				// Gaz: Quick fix
+				if (label.size() == 0)
+					break;
             }                        
             float w = getStringWidth(label);                       
             float h = getStringHeight(label);

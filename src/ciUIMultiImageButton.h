@@ -105,9 +105,9 @@ public:
             extension = _pathURL.substr(found);
         }
         
-        back = loadImage(loadResource(_pathURL));         
-        over = loadImage(loadResource(coreURL+"over"+extension));         
-        on = loadImage(loadResource(coreURL+"on"+extension));         
+        back = loadImage(loadFile(_pathURL));         
+        over = loadImage(loadFile(coreURL+"over"+extension));         
+        on = loadImage(loadFile(coreURL+"on"+extension));         
     }       
     
    
