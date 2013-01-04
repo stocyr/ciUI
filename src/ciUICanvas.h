@@ -130,7 +130,14 @@ public:
         uniqueIDs = 0;         
         widgetSpacing = CI_UI_GLOBAL_WIDGET_SPACING; 
         hasKeyBoard = false; 
-    }    
+    }   
+
+	// Gaz: This function may not be completely stable yet...
+	void resize(int w, int h)
+	{
+		rect->set(0, 0, w, h);
+		paddedRect->set(-padding, -padding, w+padding*2.0f, h+padding*2.0f);
+	}
     
     void saveSettings(string fileName)
     {
@@ -404,18 +411,18 @@ public:
         switch(_kind)
         {
             case CI_UI_FONT_LARGE:                                              
-                fontLarge = Font( loadResource(fontName), _size);                
+                fontLarge = Font( loadFile(fontName), _size);                
                 font_large = gl::TextureFont::create(fontLarge);                
                 break; 
 
             case CI_UI_FONT_MEDIUM:
-                fontMedium = Font( loadResource(fontName), _size);                
+                fontMedium = Font( loadFile(fontName), _size);                
                 font_medium = gl::TextureFont::create(fontMedium);                
                 
                 break; 
 
             case CI_UI_FONT_SMALL:
-                fontSmall = Font( loadResource(fontName), _size);                
+                fontSmall = Font( loadFile(fontName), _size);                
                 font_small = gl::TextureFont::create(fontSmall);                
                 
                 break; 
@@ -2168,18 +2175,18 @@ protected:
         switch(_kind)
         {
             case CI_UI_FONT_LARGE:              
-                fontLarge = Font( loadResource(filename), fontsize);                
+                fontLarge = Font( loadFile(filename), fontsize);                
                 font_large = gl::TextureFont::create(fontLarge);
                 break; 
                 
             case CI_UI_FONT_MEDIUM:
-                fontMedium = Font( loadResource(filename), fontsize);                
+                fontMedium = Font( loadFile(filename), fontsize);                
                 font_medium = gl::TextureFont::create(fontMedium);
                 
                 break; 
                 
             case CI_UI_FONT_SMALL:
-                fontSmall = Font( loadResource(filename), fontsize);                
+                fontSmall = Font( loadFile(filename), fontsize);                
                 font_small = gl::TextureFont::create(fontSmall);
 
                 break; 
