@@ -67,7 +67,7 @@ public:
         name = _name; 		
 		kind = CI_UI_WIDGET_IMAGEBUTTON; 		
         
-		paddedRect = new ciUIRectangle(-padding, -padding, w+padding*2.0, h+padding*2.0);
+		paddedRect = new ciUIRectangle(-padding, -padding, w+padding*2.0f, h+padding*2.0f);
 		paddedRect->setParent(rect); 
 
         if(useReference)

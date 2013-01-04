@@ -74,7 +74,7 @@ public:
 			kind = CI_UI_WIDGET_IMAGESLIDER_V;  			
 		}
         
-		paddedRect = new ciUIRectangle(-padding, -padding, w+padding*2.0, h+padding);
+		paddedRect = new ciUIRectangle(-padding, -padding, w+padding*2.0f, h+padding);
 		paddedRect->setParent(rect);     
         
         draw_fill = true; 
@@ -117,7 +117,7 @@ public:
 		label->setParent(label); 
 		label->setRectParent(rect); 
         label->setEmbedded(true);
-        increment = .10;         
+        increment = .10f;         
         
         string coreURL = _pathURL;
         string extension = "";
@@ -132,13 +132,13 @@ public:
         }
         
         
-        track = loadImage(loadResource(coreURL+"track"+extension));                 //back
-        progress = loadImage(loadResource(coreURL+"progress"+extension));           //fill        
-        handle = loadImage(loadResource(coreURL+"handle"+extension));               //handle        
-        handleDown = loadImage(loadResource(coreURL+"handledown"+extension));       //handleOver State                        
+        track = loadImage(loadFile(coreURL+"track"+extension));                 //back
+        progress = loadImage(loadFile(coreURL+"progress"+extension));           //fill        
+        handle = loadImage(loadFile(coreURL+"handle"+extension));               //handle        
+        handleDown = loadImage(loadFile(coreURL+"handledown"+extension));       //handleOver State                        
         
-        handleHalfWidth = handle.getWidth()*.5;
-        handleHalfHeight = handle.getHeight()*.5;
+        handleHalfWidth = handle.getWidth()*.5f;
+        handleHalfHeight = handle.getHeight()*.5f;
         
         if(kind == CI_UI_WIDGET_IMAGESLIDER_H)
         {
@@ -213,10 +213,10 @@ public:
             else
             {
                 gl::draw(progress, 
-                         Area(0,rect->getHeight()*(1.0-value),rect->getWidth(),rect->getHeight()), 
-                         Rectf(rect->getX(), rect->getY()+rect->getHeight()*(1.0-value), rect->getX()+rect->getWidth(), rect->getY()+rect->getHeight()));                            
-                gl::draw(handleDown, Vec2f(imageRect->getX(), imageRect->getY()+imageRect->getHeight()*(1.0-value)-handleHalfWidth));            
-                label->drawString(imageRect->getX()+imageRect->getWidth()+padding, imageRect->getY()+imageRect->getHeight()*(1.0-value)-label->getRect()->getHalfHeight()*.5, numToString(getScaledValue(),labelPrecision)); 
+                         Area(0,rect->getHeight()*(1.0f-value),rect->getWidth(),rect->getHeight()), 
+                         Rectf(rect->getX(), rect->getY()+rect->getHeight()*(1.0f-value), rect->getX()+rect->getWidth(), rect->getY()+rect->getHeight()));                            
+                gl::draw(handleDown, Vec2f(imageRect->getX(), imageRect->getY()+imageRect->getHeight()*(1.0f-value)-handleHalfWidth));            
+                label->drawString(imageRect->getX()+imageRect->getWidth()+padding, imageRect->getY()+imageRect->getHeight()*(1.0f-value)-label->getRect()->getHalfHeight()*.5f, numToString(getScaledValue(),labelPrecision)); 
 			}
         }
     }
@@ -272,7 +272,7 @@ public:
 		}
 		else 
 		{
-			value = 1.0-imageRect->percentInside(x, y).y; 
+			value = 1.0f-imageRect->percentInside(x, y).y; 
 		}	
         
         if(value > 1.0)

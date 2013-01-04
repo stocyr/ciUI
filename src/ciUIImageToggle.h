@@ -64,7 +64,7 @@ public:
     
     void mouseMove(int x, int y ) 
     {
-        if(rect->inside(x, y))
+        if(rect->inside((float) x, (float) y))
         {
             state = CI_UI_STATE_OVER;         
         }    
@@ -90,7 +90,7 @@ public:
     
     void mouseDown(int x, int y, int button) 
     {
-        if(rect->inside(x, y))
+        if(rect->inside((float) x, (float) y))
         {
             hit = true; 
             state = CI_UI_STATE_DOWN;         

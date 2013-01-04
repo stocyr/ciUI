@@ -73,10 +73,10 @@ public:
 		name = _name; 		
 		kind = CI_UI_WIDGET_BUTTON; 		
         		
-        paddedRect = new ciUIRectangle(-padding, -padding, w+padding*2.0, h+padding*2.0);
+        paddedRect = new ciUIRectangle(-padding, -padding, w+padding*2.0f, h+padding*2.0f);
 		paddedRect->setParent(rect); 
         
-		label = new ciUILabel(w+padding*2.0,0, (name+" LABEL"), name, _size); 
+		label = new ciUILabel(w+padding*2.0f,0, (name+" LABEL"), name, _size); 
 		label->setParent(label); 
 		label->setRectParent(rect); 
         label->setEmbedded(true);		
@@ -129,7 +129,7 @@ public:
 
     virtual void mouseMove(int x, int y) 
     {
-        if(rect->inside(x, y))
+        if(rect->inside((float) x, (float) y))
         {
             state = CI_UI_STATE_OVER;         
         }    
@@ -144,7 +144,7 @@ public:
     {
         if(hit)
         {
-            if(rect->inside(x, y))
+            if(rect->inside((float) x, (float) y))
             {                
                 state = CI_UI_STATE_DOWN;         
             }    
@@ -161,7 +161,7 @@ public:
     
     virtual void mouseDown(int x, int y, int button) 
     {
-        if(rect->inside(x, y))
+        if(rect->inside((float) x, (float) y))
         {
             hit = true;
             state = CI_UI_STATE_DOWN;         
@@ -182,7 +182,7 @@ public:
 #if defined( CINDER_COCOA_TOUCH )
             state = CI_UI_STATE_NORMAL;        
 #else            
-            if(rect->inside(x, y))
+            if(rect->inside((float) x, (float) y))
             {
                 state = CI_UI_STATE_OVER; 
             }
@@ -259,11 +259,11 @@ public:
 		float h = labelrect->getHeight(); 
 		float ph = rect->getHeight(); 
 		
-		labelrect->setY(ph/2.0 - h/2.0);
+		labelrect->setY(ph/2.0f - h/2.0f);
         
         if(!drawLabel)
         {
-            paddedRect->setWidth(rect->getWidth()+padding*2.0);
+            paddedRect->setWidth(rect->getWidth()+padding*2.0f);
         }
         else
         {            

@@ -83,7 +83,7 @@ public:
 			kind = CI_UI_WIDGET_SLIDER_V;  			
 		}
         
-		paddedRect = new ciUIRectangle(-padding, -padding, w+padding*2.0, h+padding);
+		paddedRect = new ciUIRectangle(-padding, -padding, w+padding*2.0f, h+padding);
 		paddedRect->setParent(rect);     
         
         draw_fill = true; 
@@ -126,7 +126,7 @@ public:
 		label->setParent(label); 
 		label->setRectParent(rect); 
         label->setEmbedded(true);
-        increment = 0.1;         
+        increment = 0.1f;         
     }
 
     virtual void update()
@@ -185,7 +185,7 @@ public:
 			}
 			else 
 			{
-				cinder::gl::drawSolidRect(Rectf(rect->getX(), rect->getY()+rect->getHeight()*(1.0-value), rect->getX()+rect->getWidth(), rect->getY()+rect->getHeight())); 
+				cinder::gl::drawSolidRect(Rectf(rect->getX(), rect->getY()+rect->getHeight()*(1.0f-value), rect->getX()+rect->getWidth(), rect->getY()+rect->getHeight())); 
 			}
         }
     }
@@ -201,15 +201,15 @@ public:
 			}
 			else 
 			{
-				cinder::gl::drawSolidRect(Rectf(rect->getX(), rect->getY()+rect->getHeight()*(1.0-value), rect->getX()+rect->getWidth(), rect->getY()+rect->getHeight())); 
-				label->drawString(rect->getX()+rect->getWidth()+padding, rect->getY()+rect->getHeight()*(1.0-value)-label->getRect()->getHalfHeight(), numToString(getScaledValue(),labelPrecision)); 
+				cinder::gl::drawSolidRect(Rectf(rect->getX(), rect->getY()+rect->getHeight()*(1.0f-value), rect->getX()+rect->getWidth(), rect->getY()+rect->getHeight())); 
+				label->drawString(rect->getX()+rect->getWidth()+padding, rect->getY()+rect->getHeight()*(1.0f-value)-label->getRect()->getHalfHeight(), numToString(getScaledValue(),labelPrecision)); 
 			}
         }        
     }
         
     void mouseMove(int x, int y ) 
     {        
-        if(rect->inside(x, y))
+        if(rect->inside((float) x, (float) y))
         {
             state = CI_UI_STATE_OVER;         
         }    
@@ -225,7 +225,7 @@ public:
         if(hit)
         {
             state = CI_UI_STATE_DOWN;     
-			input(x, y); 
+			input((float) x, (float) y); 
 			triggerEvent(this); 			
         }    
         else
@@ -237,11 +237,11 @@ public:
     
     void mouseDown(int x, int y, int button) 
     {
-        if(rect->inside(x, y))
+        if(rect->inside((float) x, (float) y))
         {
             hit = true; 
             state = CI_UI_STATE_DOWN;     
-			input(x, y); 
+			input((float) x, (float) y); 
 			triggerEvent(this); 
         }    
         else
@@ -260,7 +260,7 @@ public:
 #else            
             state = CI_UI_STATE_OVER; 
 #endif            
-			input(x, y); 
+			input((float) x, (float) y); 
 			triggerEvent(this); 			
         }    
         else

@@ -71,10 +71,10 @@ public:
 		name = _name; 		
 		kind = CI_UI_WIDGET_MULTIIMAGEBUTTON;
         
-		paddedRect = new ciUIRectangle(-padding, -padding, w+padding*2.0, h+padding*2.0);
+		paddedRect = new ciUIRectangle(-padding, -padding, w+padding*2.0f, h+padding*2.0f);
 		paddedRect->setParent(rect); 
         
-		label = new ciUILabel(w+padding*2.0,0, (name+" LABEL"), name, _size); 
+		label = new ciUILabel(w+padding*2.0f,0, (name+" LABEL"), name, _size); 
 		label->setParent(label); 
 		label->setRectParent(rect); 
         label->setEmbedded(true);		
@@ -105,9 +105,9 @@ public:
             extension = _pathURL.substr(found);
         }
         
-        back = loadImage(loadResource(_pathURL));         
-        over = loadImage(loadResource(coreURL+"over"+extension));         
-        on = loadImage(loadResource(coreURL+"on"+extension));         
+        back = loadImage(loadFile(_pathURL));         
+        over = loadImage(loadFile(coreURL+"over"+extension));         
+        on = loadImage(loadFile(coreURL+"on"+extension));         
     }       
     
    

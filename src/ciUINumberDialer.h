@@ -114,10 +114,10 @@ public:
         
 		displaystring = textstring; 
         
-		paddedRect = new ciUIRectangle(-padding, -padding, padding*2.0, padding*2.0);
+		paddedRect = new ciUIRectangle(-padding, -padding, padding*2.0f, padding*2.0f);
 		paddedRect->setParent(rect); 
 		
-		label = new ciUILabel(padding*2.0,0,(name+" LABEL"), textstring, _size); 
+		label = new ciUILabel(padding*2.0f,0,(name+" LABEL"), textstring, _size); 
 		label->setParent(label); 
 		label->setRectParent(rect);
         label->setEmbedded(true);        
@@ -164,11 +164,11 @@ public:
     
     void mouseMove(int x, int y ) 
     {
-        if(rect->inside(x, y))
+        if(rect->inside((float) x, (float) y))
         {
             state = CI_UI_STATE_OVER;         			
             currentPrecisionZone = ceil(ci::lmap<float>(x,rect->getX(),rect->getX()+rect->getWidth(),0,numOfPrecisionZones));             
-            zoneMultiplier = pow(10.0,numOfPrecisionZones-currentPrecisionZone-precision);                 
+            zoneMultiplier = pow(10.0f,numOfPrecisionZones-currentPrecisionZone-precision);                 
         }    
         else
         {
@@ -190,7 +190,7 @@ public:
             {
                 *value = min; 
             }            
-            hitPoint = Vec2f(x,y); 
+            hitPoint = Vec2f((float) x, (float) y); 
     
             setTextString(numToString(*value, precision));     
 			triggerEvent(this);             
@@ -205,12 +205,12 @@ public:
     
     void mouseDown(int x, int y, int button) 
     {
-        if(rect->inside(x, y))
+        if(rect->inside((float) x, (float) y))
         {
             hit = true; 
-            hitPoint = Vec2f(x,y); 
+            hitPoint = Vec2f((float) x, (float) y); 
             currentPrecisionZone = ceil(ci::lmap<float>(x,rect->getX(),rect->getX()+rect->getWidth(),0,numOfPrecisionZones));             
-            zoneMultiplier = pow(10.0,numOfPrecisionZones-currentPrecisionZone-precision);     
+            zoneMultiplier = pow(10.0f, numOfPrecisionZones-currentPrecisionZone-precision);     
             state = CI_UI_STATE_DOWN;     
 			triggerEvent(this);            
         }    
@@ -392,16 +392,16 @@ public:
 	void setParent(ciUIWidget *_parent)
 	{
 		parent = _parent; 
-        rect->setHeight(label->getPaddingRect()->getHeight()+padding*2.0); 
-        rect->setWidth(label->getPaddingRect()->getWidth()+padding*2.0); 
+        rect->setHeight(label->getPaddingRect()->getHeight()+padding*2.0f); 
+        rect->setWidth(label->getPaddingRect()->getWidth()+padding*2.0f); 
 		ciUIRectangle *labelrect = label->getRect(); 
 		float h = labelrect->getHeight(); 
 		float ph = rect->getHeight(); 	
 		
-		labelrect->setY(ph/2.0 - h/2.0); 
+		labelrect->setY(ph/2.0f - h/2.0f); 
  		
-		paddedRect->setHeight(rect->getHeight()+padding*2.0); 
-		paddedRect->setWidth(rect->getWidth()+padding*2.0);
+		paddedRect->setHeight(rect->getHeight()+padding*2.0f); 
+		paddedRect->setWidth(rect->getWidth()+padding*2.0f);
 
         setTextString(numToString(*value, precision));                     
 	}	

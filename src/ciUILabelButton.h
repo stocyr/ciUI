@@ -103,7 +103,7 @@ public:
 		label->setRectParent(rect);         
         label->setEmbedded(true);
 		kind = CI_UI_WIDGET_LABELBUTTON; 	
-        paddedRect = new ciUIRectangle(-padding, -padding, padding*2.0, padding*2.0);
+        paddedRect = new ciUIRectangle(-padding, -padding, padding*2.0f, padding*2.0f);
 		paddedRect->setParent(rect);         
         
         if(useReference)
@@ -124,12 +124,12 @@ public:
 		parent = _parent; 
         if(rect->getHeight() == 0)
         {
-            rect->setHeight(label->getPaddingRect()->getHeight()+padding*2.0); 
+            rect->setHeight(label->getPaddingRect()->getHeight()+padding*2.0f); 
         }    
 		ciUIRectangle *labelrect = label->getRect(); 
         if(autoSize)
         {
-            rect->setWidth(label->getPaddingRect()->getWidth()+padding*2.0);             
+            rect->setWidth(label->getPaddingRect()->getWidth()+padding*2.0f);             
         }
         else
         {
@@ -150,10 +150,10 @@ public:
         float w = labelrect->getWidth(); 
         float pw = rect->getWidth(); 
         
-		labelrect->setY((int)(ph*.5 - h*.5)); 
-        labelrect->setX((int)(pw*.5 - w*.5)); 
-		paddedRect->setHeight(rect->getHeight()+padding*2.0);  
-        paddedRect->setWidth(rect->getWidth()+padding*2.0);  
+		labelrect->setY((int)(ph*.5f - h*.5f)); 
+        labelrect->setX((int)(pw*.5f - w*.5f)); 
+		paddedRect->setHeight(rect->getHeight()+padding*2.0f);  
+        paddedRect->setWidth(rect->getWidth()+padding*2.0f);  
 	}	
     
     
