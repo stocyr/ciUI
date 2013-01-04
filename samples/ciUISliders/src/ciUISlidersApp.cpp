@@ -44,7 +44,7 @@ void ciUISlidersApp::setup()
     gui = new ciUICanvas(0,0,guiWidth, guiHeight);
 	
     gui->addWidgetDown(new ciUILabel("SLIDER WIDGETS", CI_UI_FONT_LARGE));         
-    gui->addWidgetDown(new ciUISpacer(length, 1)); 
+    gui->addWidgetDown(new ciUISpacer(length, 1));
     gui->addWidgetDown(new ciUIFPSSlider(length, dim, 0, 120, 60.0, "FPS SLIDER"));
 	gui->addWidgetDown(new ciUILabel("NORMAL SLIDER", CI_UI_FONT_MEDIUM)); 	
     gui->addWidgetDown(new ciUISlider(length,dim, 0.0, 1.0, red, "RED")); 

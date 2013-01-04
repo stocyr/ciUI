@@ -68,7 +68,7 @@ void ciUIAllWidgetsApp::setup()
 	setFpsSampleInterval(1.0); 
 
     mImage = loadImage( loadResource( SAMPLE_IMAGE ) ); 
-    mImageSurface = loadImage (loadResource( SAMPLE_IMAGE ) );
+    mImageSurface = loadImage ( loadResource( SAMPLE_IMAGE ) );
     buffer = new float[128];
     menuWidth = getWindowWidth()/3.0; 
     menuHeight = getWindowHeight();
@@ -257,7 +257,8 @@ void ciUIAllWidgetsApp::setupGUI2()
     gui1->addWidgetDown(new ciUILabelButton(false, "BUTTON AUTO SIZE", CI_UI_FONT_SMALL));
     
     gui1->addWidgetDown(new ciUILabelToggle(w, false, "LABEL TOGGLE", CI_UI_FONT_MEDIUM));        
-    gui1->addWidgetDown(new ciUILabelToggle(false, "TOGGLE AUTO SIZE", CI_UI_FONT_SMALL));        
+    gui1->addWidgetDown(new ciUILabelToggle(false, "TOGGLE AUTO SIZE", CI_UI_FONT_SMALL));
+    
     
     //gui1->setDrawBack(false);
     gui1->registerUIEvents(this, &ciUIAllWidgetsApp::guiEvent);     
