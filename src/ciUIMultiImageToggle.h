@@ -94,7 +94,7 @@ public:
         string period (".");
         size_t found;        
         
-        found=_pathURL.find(period);
+        found=_pathURL.find_last_of(period);
         if (found!=string::npos)        
         {
             coreURL = _pathURL.substr(0,found);
