@@ -13,6 +13,7 @@ using namespace ci;
 using namespace ci::app;
 using namespace std;
 
+
 class ciUIAllWidgetsApp : public AppBasic 
 {    
 public:
@@ -35,7 +36,7 @@ public:
     //Vars 
     float bgColorR; 
     float bgColorG; 
-    float bgColorB;     
+    float bgColorB; 
     
     Perlin myPerlin;
     gl::Texture mImage;
@@ -79,9 +80,9 @@ void ciUIAllWidgetsApp::setup()
     bgColorG = 0.08f;     
     bgColorB = 0.33f;      
     
-    setupGUI1(); 
-    setupGUI2(); 
-    setupGUI3();     
+    setupGUI1();
+    setupGUI2();
+    setupGUI3();
 }
 
 void ciUIAllWidgetsApp::update()
@@ -147,6 +148,10 @@ void ciUIAllWidgetsApp::keyDown( KeyEvent event )
         {
             gui2->toggleVisible();        
         }
+		else if(event.getChar() == 'e')
+		{
+			gui->setEmbedded(false);
+		}
         else if(event.getChar() == 's')
         {
             gui->saveSettings("ciUIGUISettings.xml");
