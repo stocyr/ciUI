@@ -1,4 +1,4 @@
-ciUI is a Block for Cinder (version 0.8.4) that easily allows for the creation of user interfaces aka GUIs. ciUI also takes care of varible binding, widget layout, spacing, font loading, saving and loading settings, and callbacks. ciUI can be easily customized (UI themes, colors, font & widget sizes, padding, layout, etc).
+﻿ciUI is a Block for Cinder (version 0.8.4) that easily allows for the creation of user interfaces aka GUIs. ciUI also takes care of varible binding, widget layout, spacing, font loading, saving and loading settings, and callbacks. ciUI can be easily customized (UI themes, colors, font & widget sizes, padding, layout, etc).
 
 Read more about how it came to be here: http://www.syedrezaali.com/blog/?p=2366
 
@@ -29,7 +29,16 @@ This UI library was inspired & influenced by:
 - SimpleGUI (http://marcinignac.com/blog/simplegui/)
 - Apple's User Interface 
 
-ciUI was / is developed by Reza Ali (www.syedrezaali.com || syed.reza.ali@gmail.com || @rezaali). It has been tested on OSX  and iOS. It should work on windows, but hasn't been tested yet. ciUI is open source under an MIT License, therefore you can use it in commercial and non-commercial projects. If you do end up using it, please let me know. I would love to see examples of it out there in the wild. If you plan to use it in a commercial project please consider donating to help support this Block and future releases/fixes/features (http://www.syedrezaali.com/blog/?p=2366).
+ciUI was / is developed by Reza Ali (www.syedrezaali.com || syed.reza.ali@gmail.com || @rezaali). It has been tested on OSX  and iOS. ciUI is open source under an MIT License, therefore you can use it in commercial and non-commercial projects. If you do end up using it, please let me know. I would love to see examples of it out there in the wild. If you plan to use it in a commercial project please consider donating to help support this Block and future releases/fixes/features (http://www.syedrezaali.com/blog/?p=2366).
+
+It was designed for OSX and iOS systems. The problem is that resource handling is not the same in Windows and OSX systems. Files that use resources are:
+
+- ciUICanvas.h: for the Font loading
+- ciUIImageSlider.h: for the image loading
+- ciUIMultiImageButton.h: for the image loading
+- ciUIMultiImageToggle.h: for the image loading
+
+As of now, a workarround has been made: all resource calls were replaced by assets.
 
 In terms of performance, I haven't compared it to other GUIs out there, but since its written using Cinder drawing calls and uses Boost for its callbacks, it runs fast (on my laptop (Apple Macbook Pro 2009)).
 
