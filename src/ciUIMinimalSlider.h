@@ -196,7 +196,7 @@ public:
             rect->setHeight(label->getPaddingRect()->getHeight());             
         }
         
-		float h = labelrect->getHeight(); 
+		float h = labelrect->getHeight();
 		float ph = rect->getHeight(); 	
         
 		labelrect->setY(((int)(ph*.5f - h*.5f)));

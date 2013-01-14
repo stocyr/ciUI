@@ -98,16 +98,16 @@ public:
         string period (".");
         size_t found;        
         
-        found=_pathURL.find(period);
+        found=_pathURL.find_last_of(period);
         if (found!=string::npos)        
         {
             coreURL = _pathURL.substr(0,found);
             extension = _pathURL.substr(found);
         }
         
-		back = loadImage(loadAsset(_pathURL));
-		over = loadImage(loadAsset(coreURL+"over"+extension));;
-		on = loadImage(loadAsset(coreURL+"on"+extension));;   
+        back = loadImage(loadFile(_pathURL));         
+        over = loadImage(loadFile(coreURL+"over"+extension));         
+        on = loadImage(loadFile(coreURL+"on"+extension));         
     }       
     
    

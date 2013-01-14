@@ -124,18 +124,18 @@ public:
         string period (".");
         size_t found;        
         
-        found=_pathURL.find(period);
+        found=_pathURL.find_last_of(period);
         if (found!=string::npos)        
         {
             coreURL = _pathURL.substr(0,found);
             extension = _pathURL.substr(found);
         }
         
-		track = loadImage(loadAsset(coreURL+"track"+extension));
-		progress = loadImage(loadAsset(coreURL+"progress"+extension));
-		handle = loadImage(loadAsset(coreURL+"handle"+extension));
-		handleDown = loadImage(loadAsset(coreURL+"handleDown"+extension));
-
+        track = loadImage(loadFile(coreURL+"track"+extension));                 //back
+        progress = loadImage(loadFile(coreURL+"progress"+extension));           //fill        
+        handle = loadImage(loadFile(coreURL+"handle"+extension));               //handle        
+        handleDown = loadImage(loadFile(coreURL+"handledown"+extension));       //handleOver State                        
+        
         handleHalfWidth = handle.getWidth()*.5f;
         handleHalfHeight = handle.getHeight()*.5f;
         
